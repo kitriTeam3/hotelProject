@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="login">
+	<select id="cLogin" parameterType="customerLogin" resultType="string">
+		<![CDATA[
+		SELECT cname
+		FROM customer
+		WHERE cid = #{cid} AND cpw = #{cpw} 
+		]]>
+	</select>
+	
+	<select id="hLogin" parameterType="hotelLogin" resultType="string">
+		<![CDATA[
+		SELECT hname
+		FROM hotel
+		WHERE hid = #{hid} AND hpw = #{hpw} 
+		]]>
+	</select>
+	
+	<select id="eLogin" parameterType="empLogin" resultType="string">
+		<![CDATA[
+		SELECT ename
+		FROM emp
+		WHERE eid = #{eid} AND epw = #{epw} 
+		]]>
+	</select>
+	
+	<select id="cMyinfo" parameterType="string" resultType="customerSignUp">
+		<![CDATA[
+		SELECT cname, firstname, lastname, cmail, cphone
+		FROM customer
+		WHERE cid = #{cid}
+		]]>
+	</select>
+	
+	<select id="eMyinfo" parameterType="string" resultType="employeeSignUp">
+		<![CDATA[
+		SELECT ename, email, ephone, posion
+		FROM emp
+		WHERE eid = #{eid}
+		]]>
+	</select>
+	
+	<select id="hMyinfo" parameterType="string" resultType="hotelSignUp">
+		<![CDATA[
+		SELECT hname, grade, location, hmail, hphone
+		FROM hotel
+		WHERE hid = #{hid}
+		]]>
+	</select>
+	
+	<!-- 아이디중복 -->
+	<select id="cidCheck" resultType="int">
+		<![CDATA[
+		SELECT count(*)
+		FROM customer
+		WHERE cid = #{cid}
+		]]>
+	</select>
+	
+	<insert id="cSignUp" parameterType="customerSignUp">
+		<![CDATA[
+		INSERT INTO customer VALUES(#{cid}, #{cpw}, #{cname}, #{firstname}, #{lastname}, #{cmail}, #{cphone}, to_date(sysdate,'yy/mm/dd'), '일반')
+		]]>
+	</insert>
+	
+	<insert id="eSignUp" parameterType="employeeSignUp">
+		<![CDATA[
+		INSERT INTO emp VALUES(#{eid}, #{epw}, #{ename}, #{email}, #{ephone}, 1, '인턴', 'y', to_date(sysdate, 'yy/mm/dd'))
+		]]>
+	</insert>
+	
+	<insert id="hSignUp" parameterType="hotelSignUp">
+		<![CDATA[
+		INSERT INTO hotel VALUES(#{hid}, #{hpw}, #{hname}, #{grade}, #{location}, #{hmail}, #{hphone}, to_date(sysdate, 'yy/mm/dd'))
+		]]>
+	</insert>
+</mapper>
