@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD MAPPER 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="reserve">
+
+	<select id="customerInfo" parameterType="String" resultType="CustomerInfo"> 
+	<![CDATA[
+	SELECT fistname, lastname, cmail
+	FROM customer
+	WHERE cid=#{cid}
+	]]>
+	</select>
+
+	<insert id="reserevInfo" parameterType="reserve" >
+	<![CDATA[
+	INSERT INTO reserve ('rid', 'rdate, 'firstname', 'lastname', 'email', 'country',
+			'request', 'checkin', 'checkout', 'person', 'cancel', 'tcode') 
+	VALUES (#{rid}, TO_DATE(#{rdate}, 'YYYY-MM-DD')), #{firstname}, #{lastname}, #{email}, #{country}, 
+			#{request}, TO_DATE(#{checkin}, 'YYYY-MM-DD')),TO_DATE(#{checkout}, 'YYYY-MM-DD')), #{person},
+			#{cancel}, #{tcode})
+	]]>
+	</insert>
+	
+	
+	<select id="bookByCustomer" parameterType="String" resultType="reserve"> 
+	<![CDATA[
+	SELECT rid, rdate, firstname, lastname, email, country, request, 
+		   checkin, checkout, person, cancel, pid, cid, tcode  
+	FROM reserve
+	WHERE cid=#{cid}
+	]]>
+	</select>
+	 
+	<select id="bookById" parameterType="String" resultType="reserve"> 
+	<![CDATA[
+	SELECT rid, rdate, firstname, lastname, email, country, request, 
+		   checkin, checkout, person, cancel, pid, cid, tcode  
+	FROM reserve
+	WHERE rid=#{rid}
+	]]>
+	</select>
+	
+	<select id="bookByYear" parameterType="String" resultType="reserve"> 
+	<![CDATA[
+	SELECT rid, rdate, firstname, lastname, email, country, request, 
+		   checkin, checkout, person, cancel, pid, cid, tcode  
+	FROM reserve
+	WHERE rdate BETWEEN '#{year}-01-01' AND '#{year}-12-31'
+	]]>
+	</select>
+	
+	
+	<select id="bookByMonth" parameterType="String" resultType="reserve"> 
+	<![CDATA[
+	SELECT rid, rdate, firstname, lastname, email, country, request, 
+		   checkin, checkout, person, cancel, pid, cid, tcode  
+	FROM reserve
+	WHERE rdate BETWEEN '#{year}-#{month}-01' AND ADD_MONTHS('#{year}-#{month}-01', 1)
+	MINUS
+	SELECT rid, rdate, firstname, lastname, email, country, request, 
+		   checkin, checkout, person, cancel, pid, cid, tcode  
+	FROM reserve
+	WHERE rdate=ADD_MONTHS('#{year}-#{month}-01', 1)
+	]]>
+	</select>
+	
+	<update id="cancel" parameterType="String">
+	<![CDATA[ 
+	UPDATE reserve SET cancel='Y' WHERE rid=#{rid}
+	]]>
+	</update>
+	 
+</mapper>
