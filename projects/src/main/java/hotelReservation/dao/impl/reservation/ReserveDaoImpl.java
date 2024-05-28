@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import hotelReservation.dao.reservation.ReserveDao;
+import hotelReservation.dto.CreateRid;
 import hotelReservation.dto.CustomerInfo;
 import hotelReservation.dto.Rdate;
 import hotelReservation.dto.Reserve;
@@ -23,12 +24,21 @@ public class ReserveDaoImpl implements ReserveDao {
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
 	
-
+	// 로그인한 고객 정보 가져오기
 	@Override
 	public CustomerInfo customerInfo(String cid) {
 		CustomerInfo cInfo = sqlSessionTemplate.selectOne("reserve.customerInfo", cid);
 		return cInfo;
 	}
+	
+	
+	// 예약아이디 생성
+	@Override
+	public String createRid(CreateRid cr) {
+		String rid = sqlSessionTemplate.selectOne("reserve.createRid", cr);
+		return rid;
+	}
+
 
 	@Override
 	public int reserveInfo(Reserve reserve) {

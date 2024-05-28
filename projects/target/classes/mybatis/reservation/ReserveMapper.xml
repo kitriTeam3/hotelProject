@@ -5,6 +5,7 @@
 
 <mapper namespace="reserve">
 
+	<!-- 로그인 고객 정보 가져오기 -->
 	<select id="customerInfo" parameterType="String" resultType="CustomerInfo"> 
 	<![CDATA[
 	SELECT fistname, lastname, cmail
@@ -13,6 +14,22 @@
 	]]>
 	</select>
 
+	<!-- 예약번호 생성: 해당날짜 마지막 예약번호 가져오기 -->
+	<select id="createRid" parameterType="CreateRid" resultType="String">
+		<![CDATA[
+		WITH lastRid AS (
+		    SELECT country,TO_DATE(rdate, 'YYYY-MM-DD'), MAX(rid) AS max_rid
+		    FROM reserve
+		    WHERE country=#{country}, rdate=#{rdate}
+		    GROUP BY country, rdate
+		)
+		SELECT #{country} || SUBSTR(#{rdate}, 1, 4) || SUBSTR(#{rdate}, 6, 2) ||
+			SUBSTR(#{rdate}, 9, 2) ||'_' || NVL2(max_rid, SUBSTR(max_rid, 13)+1, 1) AS rid
+		FROM lastRid;
+		]]>
+	</select>
+
+	<!-- 예약 작성 정보 집어넣기 -->
 	<insert id="reserevInfo" parameterType="reserve" >
 	<![CDATA[
 	INSERT INTO reserve ('rid', 'rdate, 'firstname', 'lastname', 'email', 'country',

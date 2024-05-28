@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import hotelReservation.dto.CreateRid;
 import hotelReservation.dto.CustomerInfo;
 import hotelReservation.dto.Reserve;
 import hotelReservation.svc.reservation.ReserveSvc;
@@ -72,14 +73,11 @@ public class ReserveCtrl {
 			@RequestParam("request") String request, ModelMap model) {
 		
 		if(confirm.equals(email)) {
+			
 			model = new ModelMap();
 			LocalDate now = LocalDate.now();
 			String rdate = String.valueOf(now);
-			String year= String.valueOf(now.getYear());
-			String month = now.getMonth().toString();
-			String day = String.valueOf(now.getDayOfMonth());
-			String rid = country+year+month+day;
-					
+
 			// 세션정보값 가져오기
 			// 상품코드, 체크인, 체크아웃, 인원수
 			session = req.getSession();
@@ -89,11 +87,17 @@ public class ReserveCtrl {
 			int person = (Integer) session.getAttribute("person");
 	
 			// 예약번호 생성
-			
+			// 중대 오류 발생 - 누군가 예약하는데 예약이 안끝났는데 
+			//                  다른 사람이 예약하려고 시도하면
+			//                  같은 번호로로 예약번호가 생성됨.
+			CreateRid cr = new CreateRid(country, rdate);
+			String rid = reserveSvc.createRid(cr);
 			
 			Reserve reserve = new Reserve(rid, rdate, firstname, lastname, 
 					email, country, request, 
 					checkin, checkout, person, 'N', tcode);
+
+			// 예약 작성 정보 DB에 입력
 			reserveSvc.reserveInfo(reserve);
 			return "reservation/payInfo";
 			
@@ -101,8 +105,7 @@ public class ReserveCtrl {
 			
 			model = new ModelMap();
 			model.addAttribute("check", "N");
-			return "reservation/nReserveInfo";
-			
+			return "로그인페이지";
 		}
 	}
 	

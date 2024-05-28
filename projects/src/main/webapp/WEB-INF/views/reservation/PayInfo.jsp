@@ -6,12 +6,59 @@
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Payment Form</title>
+ <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        form {
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input[type="text"],
+        select,
+        textarea {
+            width: calc(100% - 20px);
+            padding: 8px 10px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="text"].highlight {
+            background-color: #e6f7ff;
+        }
+        textarea {
+            height: 60px;
+            resize: none;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
 </head>
 <body>
     <form action="payInfo" method="POST" >
-        <%
-         int price = (Integer)request.getAttribute("price");
-        %>
+    
         <p>[결제 가능] VISA Master American Express</p>
 
         <label for="cardco">결제 방법 선택</label><br>
@@ -31,7 +78,7 @@
         <input type="text" id="cvcno" name="cvcno" required style="width: 50px; margin-left: 10px;"><br><br>
 
         <label for="price">결제 총 금액</label>
-      		<br>${price}<br> 원<br><br>
+        <input type="text" id="price" name="price" value="${price}" >\\<br><br>
 
         <button type="submit">결제완료</button>
     </form>

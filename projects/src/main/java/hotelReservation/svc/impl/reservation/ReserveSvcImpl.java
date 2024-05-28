@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import hotelReservation.dao.reservation.ReserveDao;
+import hotelReservation.dto.CreateRid;
 import hotelReservation.dto.CustomerInfo;
 import hotelReservation.dto.Rdate;
 import hotelReservation.dto.Reserve;
@@ -24,25 +25,36 @@ public class ReserveSvcImpl implements ReserveSvc {
 	private ReserveDao reserveDao;
 	
 
+	// 로그인 고객 정보 가져오기
 	@Override
 	public CustomerInfo customerInfo(String cid) {
 		CustomerInfo cInfo = reserveDao.customerInfo(cid);
 		return cInfo;
 	}
 	
+	// 예약번호 생성
+	@Override
+	public String createRid(CreateRid cr) {
+		String rid = reserveDao.createRid(cr);
+		return rid;
+	}
+
+	
+	// 예약 작성 정보 insert
 	@Override
 	public int reserveInfo(Reserve reserve) {
 		int cnt = reserveDao.reserveInfo(reserve);
 		return cnt;
 	}
 
-
+	// 예약 취소 update
 	@Override
 	public int cancel(String rid) {
 	    int cnt = reserveDao.cancel(rid);
 		return cnt;
 	}
 
+	// 예약 순간 객실 재고 변동
 	@Override
 	public void stock() {
 		// TODO Auto-generated method stub
@@ -72,6 +84,7 @@ public class ReserveSvcImpl implements ReserveSvc {
 		List<Reserve> bookList = reserveDao.bookByMonth(rdate);
 		return bookList;
 	}
+
 
 
 
