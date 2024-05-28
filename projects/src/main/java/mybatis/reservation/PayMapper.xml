@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD MAPPER 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="pay">
+
+<!-- 두 개 이상의 테이블을 조인해서 select할 때 alias붙여준다. -->
+
+	<select id="priceInfo" parameterType="String" resultType="int"> 
+	<![CDATA[
+	SELECT tprice 
+	FROM type
+	WHERE tcode=#{tcode}
+	]]>
+	</select>
+
+
+	<insert id="payInfo" parameterType="pay" >
+	<![CDATA[
+	INSERT INTO pay ('pid', 'chargedate', 'expiredate', 'cardno', 'cvcno', 'price', 'cardco', 'cancel') 
+	VALUES (#{pid}, TO_DATE(#{chargedate}, 'YYYY-MM-DD')), TO_DATE(#{expiredate}, 'YYYY-MM-DD')),
+			#{cardno}, #{cvcno}, #{price}, #{cardno}, 'N')
+	]]>
+	</insert>
+	
+	
+	
+	<update id="cancel" parameterType="String" >
+	<![CDATA[
+	UPDATE pay SET cancel='Y' WHERE pid=#{pid} 
+	]]>
+	</update>
+	 
+	 
+</mapper>
