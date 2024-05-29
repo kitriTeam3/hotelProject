@@ -4,6 +4,7 @@ import java.util.List;
 
 import hotelReservation.dto.Hotel;
 import hotelReservation.dto.Search;
+import hotelReservation.dto.SearchResult;
 import hotelReservation.dto.Tdetails;
 import hotelReservation.dto.Type;
 import hotelReservation.dto.UpdateConditions;
@@ -14,9 +15,10 @@ public interface GoodsDao {
 	String findMaxTcode(String hid);
 	int registerGoods(Type type);
 	int deleteGoods(String tcode);
+	String findTcode(String hid);
 	int registerGoodsDetail(Tdetails tdetails);
-	List<Hotel> hotelList();
-	List<Hotel> searchList(Search search);
+	List<SearchResult> hotelList();
+	List<SearchResult> searchList(Search search);
 	List<Type> hotelDetail(String hid);
 	Tdetails goodsDetail(String tcode);
 }

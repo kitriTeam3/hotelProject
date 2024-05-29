@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import hotelReservation.dao.GoodsDao;
 import hotelReservation.dto.Hotel;
 import hotelReservation.dto.Search;
+import hotelReservation.dto.SearchResult;
 import hotelReservation.dto.Tdetails;
 import hotelReservation.dto.Type;
 import hotelReservation.dto.UpdateConditions;
@@ -56,20 +57,26 @@ public class GoodsSvcImpl implements GoodsSvc {
 	}
 	
 	@Override
+	public String findTcode(String hid) {
+		String findTcode = goodsDao.findTcode(hid);
+		return findTcode;
+	}
+	
+	@Override
 	public int registerGoodsDetail(Tdetails tdetails) {
 		int count = goodsDao.registerGoodsDetail(tdetails);
 		return count;
 	}
 
 	@Override
-	public List<Hotel> hotelList() {
-		List<Hotel> hotelList = goodsDao.hotelList();
+	public List<SearchResult> hotelList() {
+		List<SearchResult> hotelList = goodsDao.hotelList();
 		return hotelList;
 	}
 
 	@Override
-	public List<Hotel> searchList(Search search) {
-		List<Hotel> searchList = goodsDao.searchList(search);
+	public List<SearchResult> searchList(Search search) {
+		List<SearchResult> searchList = goodsDao.searchList(search);
 		return searchList;
 	}
 
