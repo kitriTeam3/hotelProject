@@ -57,7 +57,7 @@
 
 </head>
 <body>
-    <form action="payInfo" method="POST" >
+    <form action="/projects/payInfo" method="POST" >
     
         <p>[결제 가능] VISA Master American Express</p>
 

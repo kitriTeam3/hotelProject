@@ -9,11 +9,13 @@ public class CreateRid {
 
 	private String country;
 	private String rdate;
+
+
 	
 	public CreateRid(String country, String rdate) {
-		super();
 		this.country = country;
 		this.rdate = rdate;
+
 	}
 	
 	

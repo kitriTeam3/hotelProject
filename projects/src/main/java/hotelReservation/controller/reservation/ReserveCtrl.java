@@ -18,12 +18,13 @@ import hotelReservation.dto.Reserve;
 import hotelReservation.svc.reservation.ReserveSvc;
 
 
-
 @Controller
 public class ReserveCtrl {
  
 	@Autowired
 	private ReserveSvc reserveSvc; 
+	
+	@Autowired
 	private HttpSession session;
 	
 	// 로그인 예약자 정보 가져오기(ctrl->view)
@@ -44,8 +45,9 @@ public class ReserveCtrl {
 	}
 	
 	
+
 	// 로그인 예약자 정보 작성값 가져오기(view->ctrl)
-	@RequestMapping(value="/mReserveInfo", method=RequestMethod.POST)
+	@RequestMapping(value="/mReserveInfo", method= RequestMethod.POST)
 	public String mReserveInfo(@RequestParam("firstname") String firstname,
 			@RequestParam("lastname") String lastname,
 			@RequestParam("cmail") String cmail,
@@ -62,9 +64,27 @@ public class ReserveCtrl {
 		}
 	}
 	
+	/*
+	 * 
+	 */
+	//테스트용
+	@RequestMapping(value="/showPage")
+	public String nReserveInfoPage(HttpServletRequest req) {
+		session = req.getSession();
+		session.setAttribute("tcode", "KOR0001_06" );
+		session.setAttribute("checkin", "2024-05-29");
+		session.setAttribute("checkout", "2024-05-31");
+		session.setAttribute("person", 2);
+		
+	
+		return "reservation/nReserveInfo";
+	}
+	/*
+	 * 
+	 */
 	
 	// 로그인 안한 예약자 정보 작성값 가져오기(view->ctrl)
-	@RequestMapping(value="/nReserveInfo", method=RequestMethod.POST)
+	@RequestMapping(value="/nReserveInfo", method= RequestMethod.POST)
 	public String nReserveInfo(HttpServletRequest req, @RequestParam("firstname") String firstname,
 			@RequestParam("lastname") String lastname,
 			@RequestParam("cmail") String email,
@@ -73,19 +93,23 @@ public class ReserveCtrl {
 			@RequestParam("request") String request, ModelMap model) {
 		
 		if(confirm.equals(email)) {
-			
 			model = new ModelMap();
 			LocalDate now = LocalDate.now();
 			String rdate = String.valueOf(now);
-
+			
+	
 			// 세션정보값 가져오기
 			// 상품코드, 체크인, 체크아웃, 인원수
 			session = req.getSession();
+			
+			
 			String tcode = (String) session.getAttribute("tcode");
 			String checkin = (String) session.getAttribute("checkin");
 			String checkout = (String) session.getAttribute("checkout");
 			int person = (Integer) session.getAttribute("person");
-	
+
+			
+			
 			// 예약번호 생성
 			// 중대 오류 발생 - 누군가 예약하는데 예약이 안끝났는데 
 			//                  다른 사람이 예약하려고 시도하면
@@ -93,19 +117,26 @@ public class ReserveCtrl {
 			CreateRid cr = new CreateRid(country, rdate);
 			String rid = reserveSvc.createRid(cr);
 			
+			//세션으로 예약정보 값 저장
+			session.setAttribute("rid", rid);
+			System.out.println("rid 생성완료");
+			
+			
 			Reserve reserve = new Reserve(rid, rdate, firstname, lastname, 
 					email, country, request, 
 					checkin, checkout, person, 'N', tcode);
-
+			System.out.println(reserve.toString());
 			// 예약 작성 정보 DB에 입력
 			reserveSvc.reserveInfo(reserve);
-			return "reservation/payInfo";
 			
-		} else {
-			
-			model = new ModelMap();
+			System.out.println("예약정보 생성 성공");
+			// 결제 전 로그인 페이지로 가기
+			return "reservation/payLogin";	
+		}
+		// 이메일이 일치하지 않을 경우 안넘어감.
+		else {
 			model.addAttribute("check", "N");
-			return "로그인페이지";
+			return "reservation/nReserveInfo";
 		}
 	}
 	

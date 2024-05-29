@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import hotelReservation.dao.reservation.PayDao;
+import hotelReservation.dto.CustomerLogin;
 import hotelReservation.dto.Pay;
 import hotelReservation.svc.reservation.PaySvc;
 import lombok.Getter;
@@ -18,6 +19,19 @@ public class PaySvcImpl implements PaySvc {
 
 	@Autowired
 	private PayDao payDao;
+	
+	@Override
+	public String payCid(String cid) {
+		String rCid = payDao.payCid(cid);
+		return rCid;
+	}
+
+	@Override
+	public String payLogin(CustomerLogin cl) {
+		String cpw = payDao.payLogin(cl);
+		return cpw;
+	}
+
 	
 	@Override
 	public int priceInfo(String tcode) {
@@ -37,5 +51,6 @@ public class PaySvcImpl implements PaySvc {
 		int cnt = payDao.cancel(pid);
 		return cnt;
 	}
+
 
 }

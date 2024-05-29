@@ -18,27 +18,27 @@
 	<select id="createRid" parameterType="CreateRid" resultType="String">
 		<![CDATA[
 		WITH lastRid AS (
-		    SELECT country,TO_DATE(rdate, 'YYYY-MM-DD'), MAX(rid) AS max_rid
-		    FROM reserve
-		    WHERE country=#{country}, rdate=#{rdate}
-		    GROUP BY country, rdate
+  			SELECT CASE WHEN COUNT(rid) > 0 THEN MAX(rid) ELSE '00000000000_0' END AS max_rid
+  			FROM reserve
+  			WHERE country=#{country} AND rdate=#{rdate}
 		)
-		SELECT #{country} || SUBSTR(#{rdate}, 1, 4) || SUBSTR(#{rdate}, 6, 2) ||
-			SUBSTR(#{rdate}, 9, 2) ||'_' || NVL2(max_rid, SUBSTR(max_rid, 13)+1, 1) AS rid
-		FROM lastRid;
+		SELECT #{country} || SUBSTR(#{rdate}, 1, 4) || SUBSTR(#{rdate}, 6, 2) || 
+			SUBSTR(#{rdate}, 9, 2) || '_' || TO_CHAR(TO_NUMBER(SUBSTR(max_rid, 13)) + 1) AS rid
+		FROM lastRid
 		]]>
 	</select>
 
 	<!-- 예약 작성 정보 집어넣기 -->
-	<insert id="reserevInfo" parameterType="reserve" >
-	<![CDATA[
-	INSERT INTO reserve ('rid', 'rdate, 'firstname', 'lastname', 'email', 'country',
-			'request', 'checkin', 'checkout', 'person', 'cancel', 'tcode') 
-	VALUES (#{rid}, TO_DATE(#{rdate}, 'YYYY-MM-DD')), #{firstname}, #{lastname}, #{email}, #{country}, 
-			#{request}, TO_DATE(#{checkin}, 'YYYY-MM-DD')),TO_DATE(#{checkout}, 'YYYY-MM-DD')), #{person},
-			#{cancel}, #{tcode})
-	]]>
+	<insert id="reserveInfo" parameterType="reserve" >
+		<![CDATA[
+   			 INSERT INTO reserve (rid, rdate, firstname, lastname, email, country,
+       							 request, checkin, checkout, person, cancel, tcode) 
+   			 VALUES (#{rid}, TO_DATE(#{rdate}, 'YYYY-MM-DD'), #{firstname}, #{lastname}, #{email}, #{country}, 
+        			#{request}, TO_DATE(#{checkin}, 'YYYY-MM-DD'), TO_DATE(#{checkout}, 'YYYY-MM-DD'), #{person},
+        			#{cancel}, #{tcode})
+  		]]>
 	</insert>
+
 	
 	
 	<select id="bookByCustomer" parameterType="String" resultType="reserve"> 

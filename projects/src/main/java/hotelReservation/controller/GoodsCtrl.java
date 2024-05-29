@@ -21,6 +21,7 @@ import lombok.Setter;
 @Setter
 @Controller
 public class GoodsCtrl {
+	
 	@Autowired
 	private GoodsSvc goodsSvc;
 	

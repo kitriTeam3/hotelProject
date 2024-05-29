@@ -7,6 +7,25 @@
 
 <!-- 두 개 이상의 테이블을 조인해서 select할 때 alias붙여준다. -->
 
+	<!-- 결제 전 로그인 아이디 체크 -->
+	<select id="payCid" parameterType="String" resultType="String"> 
+	<![CDATA[
+	SELECT cid
+	FROM customer
+	WHERE cid=#{cid}
+	]]>
+	</select>
+	
+	<!-- 결제 전 로그인 비번 체크 -->
+	<select id="payLogin" parameterType="CustomerLogin" resultType="String"> 
+	<![CDATA[
+	SELECT cpw
+	FROM customer
+	WHERE cid=#{cid} AND cpw=#{cpw}
+	]]>
+	</select>
+
+
 	<select id="priceInfo" parameterType="String" resultType="int"> 
 	<![CDATA[
 	SELECT tprice 

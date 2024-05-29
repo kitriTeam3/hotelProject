@@ -58,7 +58,14 @@
     </style>
 </head>
 <body>
-<form action="nReserveInfo" method="POST">
+<form action="/projects/nReserveInfo" method="POST">
+
+   		<c:if test="${check eq 'N'}">
+        	<script type="text/javascript">
+			alert('이메일이 일치하지 않습니다. 정보를 다시 입력해주세요.');
+			window.location.href="http://localhost:9000/projects/showPage"
+			</script>
+        </c:if>
 
         <label for="firstname">영문 이름 (First Name)<span style="color: red;">*</span></label><br>
         <input type="text" id="firstname" name="firstname" required><br><br>
@@ -95,9 +102,7 @@
         
         <button type="submit">결제하기</button>
         
-        <c:if test="${check eq 'N'}">
-			alert('이메일이 일치하지 않습니다.');
-        </c:if>
+     
 </form>
 </body>
 </html>

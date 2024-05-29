@@ -10,9 +10,7 @@ public class CustomerLogin {
 	private String cid;
 	private String cpw;
 	
-	public CustomerLogin() {
-		
-	}
+	public CustomerLogin() {}
 	
 	public CustomerLogin(String cid, String cpw) {
 		this.cid = cid;

@@ -17,12 +17,13 @@ import hotelReservation.svc.GoodsSvc;
 import lombok.Getter;
 import lombok.Setter;
 
+
+@Service
 @Getter
 @Setter
-@Service
 public class GoodsSvcImpl implements GoodsSvc {
+	
 	@Autowired
-	@Resource
 	private GoodsDao goodsDao;
 
 	@Override

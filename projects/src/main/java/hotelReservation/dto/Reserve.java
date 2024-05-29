@@ -42,5 +42,13 @@ public class Reserve {
 		this.tcode = tcode;
 	}
 
+	@Override
+	public String toString() {
+		return "rid:"+ rid+ ", rdate:"+ rdate+", firstname:"+firstname+", lastname:"+lastname
+				+ ", email:"+ email+", country:"+country+", request:" +request +
+				", checkin:" + checkin+", checkout:" +checkout+", person:" +person
+				+ ", cancel:" + cancel +", tcdoe:" + tcode;
+	}
+	
 }
 

@@ -62,7 +62,7 @@
     </style>
 </head>
 <body>
-<form action="mReserveInfo" method="POST">
+<form action="/projects/mReserveInfo" method="POST">
 
 
         <label for="firstname">영문 이름 (First Name)<span style="color: red;">*</span></label><br>

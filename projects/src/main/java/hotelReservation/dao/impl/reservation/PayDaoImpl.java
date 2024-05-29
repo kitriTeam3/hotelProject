@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import hotelReservation.dao.reservation.PayDao;
+import hotelReservation.dto.CustomerLogin;
 import hotelReservation.dto.Pay;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,6 +17,19 @@ public class PayDaoImpl implements PayDao {
 
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
+	
+	
+	@Override
+	public String payCid(String cid) {
+		String rCid = sqlSessionTemplate.selectOne("pay.payCid", cid);
+		return rCid;
+	}
+
+	@Override
+	public String payLogin(CustomerLogin cl) {
+		String cpw = sqlSessionTemplate.selectOne("pay.payLogin", cl);
+		return cpw;
+	}
 
 	
 	@Override
