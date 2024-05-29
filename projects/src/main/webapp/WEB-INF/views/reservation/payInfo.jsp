@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	isELIgnored="false"  pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -56,8 +57,15 @@
     </style>
 
 </head>
+
 <body>
     <form action="/projects/payInfo" method="POST" >
+    
+       	<c:if test="${result eq 'Fail'}">
+        	<script type="text/javascript">
+			alert('결제에 실패하였습니다. 다시 시도해주십시오.');
+			</script>
+        </c:if>
     
         <p>[결제 가능] VISA Master American Express</p>
 
@@ -73,14 +81,15 @@
         <input type="text" id="cardno" name="cardNumber" required><br><br>
 
         <label for="expiredate">카드 만료일</label>
-        <label for="cvc" style="margin-left: 60px;">CVC 번호</label><br>
-        <input type="text" id="expiredate" name="expiredate" required style="width: 100px;">
-        <input type="text" id="cvcno" name="cvcno" required style="width: 50px; margin-left: 10px;"><br><br>
+        <input type="month" id="expiredate" name="expiredate" required style="width: 100px;">
+          
+        <label for="cvc" style="margin-left: 1px;">CVC 번호</label><br>
+     	<input type="text" id="cvcno" name="cvcno" required style="width: 50px; margin-left: 1px;"><br><br>
 
         <label for="price">결제 총 금액</label>
-        <input type="text" id="price" name="price" value="${price}" >\\<br><br>
+        <input type="text" id="price" name="price" value="${tprice}" readonly>원<br><br>
 
-        <button type="submit">결제완료</button>
+        <button type="submit" id="confirm" name="confirm" value="complete">결제완료</button>
     </form>
 </body>
 </html>

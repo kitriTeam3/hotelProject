@@ -8,13 +8,14 @@
 	<!-- 로그인 고객 정보 가져오기 -->
 	<select id="customerInfo" parameterType="String" resultType="CustomerInfo"> 
 	<![CDATA[
-	SELECT fistname, lastname, cmail
+	SELECT firstname, lastname, cmail
 	FROM customer
 	WHERE cid=#{cid}
 	]]>
 	</select>
 
 	<!-- 예약번호 생성: 해당날짜 마지막 예약번호 가져오기 -->
+	<!--  ALTER SESSION SET nls_date_format = 'YYYY/MM/DD'; 체크-->
 	<select id="createRid" parameterType="CreateRid" resultType="String">
 		<![CDATA[
 		WITH lastRid AS (

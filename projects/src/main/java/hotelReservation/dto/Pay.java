@@ -17,7 +17,10 @@ public class Pay {
 	private char cancel;
 	
 	public Pay() {}
-	public Pay(String cardco, String chargedate, String expiredate, int cardno, int cvcno, int price, char cancel) {
+	public Pay(String pid, String cardco, String chargedate, 
+			String expiredate, int cardno, int cvcno, 
+			int price, char cancel) {
+		this.pid = pid;
 		this.cardco = cardco;
 		this.chargedate = chargedate;
 		this.expiredate = expiredate;
@@ -26,4 +29,5 @@ public class Pay {
 		this.price = price;
 		this.cancel = cancel;
 	}
+
 }

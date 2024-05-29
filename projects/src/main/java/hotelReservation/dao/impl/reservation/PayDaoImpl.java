@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import hotelReservation.dao.reservation.PayDao;
+import hotelReservation.dto.CreatePid;
 import hotelReservation.dto.CustomerLogin;
 import hotelReservation.dto.Pay;
 import lombok.Getter;
@@ -38,6 +39,11 @@ public class PayDaoImpl implements PayDao {
 		return price;
 	}
 
+	@Override
+	public String createPid(CreatePid cp) {
+		String pid = sqlSessionTemplate.selectOne("pay.createPid", cp);
+		return pid;
+	}
 	
 	@Override
 	public int payInfo(Pay pay) {
@@ -50,6 +56,8 @@ public class PayDaoImpl implements PayDao {
 		int cnt = sqlSessionTemplate.delete("pay.cancel", pid);
 		return cnt;
 	}
+
+
 
 
 }

@@ -11,7 +11,6 @@ public class CreateRid {
 	private String rdate;
 
 
-	
 	public CreateRid(String country, String rdate) {
 		this.country = country;
 		this.rdate = rdate;

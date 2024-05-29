@@ -35,11 +35,27 @@
 	</select>
 
 
+	<!-- 결제번호 생성: 해당날짜 마지막 결제번호 가져오기 -->
+	<!--  ALTER SESSION SET nls_date_format = 'YYYY/MM/DD'; 체크-->
+	<select id="createPid" parameterType="CreatePid" resultType="String">
+		<![CDATA[
+		WITH lastPid AS (
+  			SELECT CASE WHEN COUNT(pid) > 0 THEN MAX(pid) ELSE '00000000000_0' END AS max_pid
+  			FROM pay
+  			WHERE cardco=#{cardco} AND chargedate=${chargedate}
+		)
+		SELECT SUBSTR(#{cardco}, 1, 1) || SUBSTR(#{chargedate}, 1, 4) || SUBSTR(#{chargedate}, 6, 2) || 
+			SUBSTR(#{chargedate}, 9, 2) || '_' || TO_CHAR(TO_NUMBER(SUBSTR(max_pid, 13)) + 1) AS pid
+		FROM lastPid
+		]]>
+	</select>
+
+
 	<insert id="payInfo" parameterType="pay" >
 	<![CDATA[
-	INSERT INTO pay ('pid', 'chargedate', 'expiredate', 'cardno', 'cvcno', 'price', 'cardco', 'cancel') 
+	INSERT INTO pay (pid, chargedate, expiredate, cardno, cvcno, price, cardco, cancel) 
 	VALUES (#{pid}, TO_DATE(#{chargedate}, 'YYYY-MM-DD')), TO_DATE(#{expiredate}, 'YYYY-MM-DD')),
-			#{cardno}, #{cvcno}, #{price}, #{cardno}, 'N')
+			#{cardno}, #{cvcno}, #{price}, #{cardno}, #{cancel})
 	]]>
 	</insert>
 	

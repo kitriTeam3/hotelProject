@@ -28,37 +28,95 @@ public class ReserveCtrl {
 	private HttpSession session;
 	
 	// 로그인 예약자 정보 가져오기(ctrl->view)
-	@RequestMapping(value="/mReserveInfo")
-	public ModelMap customerInfo(HttpServletRequest req) {
+	@RequestMapping(value="/getMemberInfo")
+	public String customerInfo(HttpServletRequest req, ModelMap model) {
 		
-		ModelMap model = new ModelMap();
-
-		// 세션에 저장된 고객아이디 가져오기
 		session = req.getSession();
+		
+		/*
+		 * test용
+		 */
+		
+		session.setAttribute("cid", "asdf");
+		Reserve treserve = new Reserve(null, null, null,
+				null, null, null,
+				null,  "2024-05-29", "2024-05-31", 
+				2, 'N', null, null, "KOR0001_06"); 
+		session.setAttribute("reserve", treserve);
+		/*
+		 * 
+		 */
+		
+		// 세션에 저장된 고객아이디 가져오기
 		String cid = (String) session.getAttribute("cid");
-	
+		System.out.println("고객 아이디 확인");
+		System.out.println(cid);
+		// 세션 예약 객체 정보에 고객 아이디 값 넣기 
+		Reserve reserve = (Reserve) session.getAttribute("reserve");
+		reserve.setCid(cid);
+		// 세션 객체 값 다시 전달
+		session.setAttribute("reserve", reserve);
 		// 고객아이디를 통해 고객 정보 가져오기
 		CustomerInfo cInfo = reserveSvc.customerInfo(cid);
+		System.out.println("고객 정보 확인");
 		model.addAttribute("cInfo", cInfo);
 		
-		return model;
+		return "reservation/mReserveInfo";
 	}
 	
 	
 
 	// 로그인 예약자 정보 작성값 가져오기(view->ctrl)
 	@RequestMapping(value="/mReserveInfo", method= RequestMethod.POST)
-	public String mReserveInfo(@RequestParam("firstname") String firstname,
+	public String mReserveInfo(HttpServletRequest req, @RequestParam("firstname") String firstname,
 			@RequestParam("lastname") String lastname,
-			@RequestParam("cmail") String cmail,
+			@RequestParam("email") String email,
 			@RequestParam("confirm") String confirm,
 			@RequestParam("country") String country,
 			@RequestParam("request") String request, ModelMap model) {
-		
-		if(confirm.equals(cmail)) {
+		// 이메일 재확인 일치
+		if(confirm.equals(email)) {
+			// 예약 날짜 
+			LocalDate now = LocalDate.now();
+			String rdate = String.valueOf(now);
 			
+			// 예약번호 생성
+			// 중대 오류 발생 - 누군가 예약하는데 예약이 안끝났는데 
+			//                  다른 사람이 예약하려고 시도하면
+			//                  같은 번호로로 예약번호가 생성됨.
+			CreateRid cr = new CreateRid(country, rdate);
+			String rid = reserveSvc.createRid(cr);
+
+			//세션으로 예약정보 값 저장
+			session = req.getSession();
+			session.setAttribute("rid", rid);
+			System.out.println("rid 생성완료");
+			// 세션정보값 가져오기	
+			Reserve reserve = (Reserve)session.getAttribute("reserve");
+			// 예약 객체 정보 채워넣기
+			reserve.setRid(rid);
+			reserve.setRdate(rdate);
+			reserve.setFirstname(firstname);
+			reserve.setLastname(lastname);
+			reserve.setEmail(email);
+			reserve.setCountry(country);
+			reserve.setRequest(request);					
+					
+			// SERVER - 예약 정보 값 확인
+			System.out.println(reserve.toString());
+			
+			// 예약 정보 객체 세션에 다시 주기 
+			session.setAttribute("reserve", reserve);
+			// 결제 페이지로 바로 넘어감
 			return "reservation/payInfo";
-		} else {
+		} 
+		// 이메일 재확인 불일치
+		else {
+			session = req.getSession();
+			String cid = (String) session.getAttribute("cid");
+			CustomerInfo cInfo = reserveSvc.customerInfo(cid);
+			System.out.println("고객 정보 확인");
+			model.addAttribute("cInfo", cInfo);
 			model.addAttribute("check", "N");
 			return "reservation/mReserveInfo";
 		}
@@ -71,12 +129,16 @@ public class ReserveCtrl {
 	@RequestMapping(value="/showPage")
 	public String nReserveInfoPage(HttpServletRequest req) {
 		session = req.getSession();
-		session.setAttribute("tcode", "KOR0001_06" );
-		session.setAttribute("checkin", "2024-05-29");
-		session.setAttribute("checkout", "2024-05-31");
-		session.setAttribute("person", 2);
+		// 상품조회에서 담는 값
+		// getAttribute("reserve");
 		
-	
+		//테스트용 값
+		Reserve reserve = new Reserve(null, null, null,
+				null, null, null,
+				null,  "2024-05-29", "2024-05-31", 
+				2, 'N', null, null, "KOR0001_06"); 
+		session.setAttribute("reserve", reserve);
+
 		return "reservation/nReserveInfo";
 	}
 	/*
@@ -87,28 +149,16 @@ public class ReserveCtrl {
 	@RequestMapping(value="/nReserveInfo", method= RequestMethod.POST)
 	public String nReserveInfo(HttpServletRequest req, @RequestParam("firstname") String firstname,
 			@RequestParam("lastname") String lastname,
-			@RequestParam("cmail") String email,
+			@RequestParam("email") String email,
 			@RequestParam("confirm") String confirm,
 			@RequestParam("country") String country,
 			@RequestParam("request") String request, ModelMap model) {
 		
 		if(confirm.equals(email)) {
-			model = new ModelMap();
+			// 예약 날짜 
 			LocalDate now = LocalDate.now();
 			String rdate = String.valueOf(now);
-			
-	
-			// 세션정보값 가져오기
-			// 상품코드, 체크인, 체크아웃, 인원수
-			session = req.getSession();
-			
-			
-			String tcode = (String) session.getAttribute("tcode");
-			String checkin = (String) session.getAttribute("checkin");
-			String checkout = (String) session.getAttribute("checkout");
-			int person = (Integer) session.getAttribute("person");
 
-			
 			
 			// 예약번호 생성
 			// 중대 오류 발생 - 누군가 예약하는데 예약이 안끝났는데 
@@ -116,25 +166,38 @@ public class ReserveCtrl {
 			//                  같은 번호로로 예약번호가 생성됨.
 			CreateRid cr = new CreateRid(country, rdate);
 			String rid = reserveSvc.createRid(cr);
-			
+
+
+		
 			//세션으로 예약정보 값 저장
+			session = req.getSession();
 			session.setAttribute("rid", rid);
 			System.out.println("rid 생성완료");
-			
-			
-			Reserve reserve = new Reserve(rid, rdate, firstname, lastname, 
-					email, country, request, 
-					checkin, checkout, person, 'N', tcode);
+			// 세션정보값 가져오기	
+			Reserve reserve = (Reserve)session.getAttribute("reserve");
+			// 예약 객체 정보 채워넣기
+			reserve.setRid(rid);
+			reserve.setRdate(rdate);
+			reserve.setFirstname(firstname);
+			reserve.setLastname(lastname);
+			reserve.setEmail(email);
+			reserve.setCountry(country);
+			reserve.setRequest(request);					
+					
+			// SERVER - 예약 정보 값 확인
 			System.out.println(reserve.toString());
-			// 예약 작성 정보 DB에 입력
-			reserveSvc.reserveInfo(reserve);
 			
-			System.out.println("예약정보 생성 성공");
+			// 예약 정보 객체 세션에 다시 주기 
+			session.setAttribute("reserve", reserve);
+			
 			// 결제 전 로그인 페이지로 가기
 			return "reservation/payLogin";	
 		}
 		// 이메일이 일치하지 않을 경우 안넘어감.
 		else {
+			model.addAttribute("fstname", firstname);
+			model.addAttribute("lstname", lastname);
+			model.addAttribute("cmail", email);
 			model.addAttribute("check", "N");
 			return "reservation/nReserveInfo";
 		}

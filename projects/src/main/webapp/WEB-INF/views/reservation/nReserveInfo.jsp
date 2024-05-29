@@ -63,18 +63,17 @@
    		<c:if test="${check eq 'N'}">
         	<script type="text/javascript">
 			alert('이메일이 일치하지 않습니다. 정보를 다시 입력해주세요.');
-			window.location.href="http://localhost:9000/projects/showPage"
 			</script>
         </c:if>
 
         <label for="firstname">영문 이름 (First Name)<span style="color: red;">*</span></label><br>
-        <input type="text" id="firstname" name="firstname" required><br><br>
+        <input type="text" id="firstname" name="firstname" value="${fstname}" required><br><br>
         
         <label for="lastname">영문 성 (Last Name)<span style="color: red;">*</span></label><br>
-        <input type="text" id="lastname" name="lastname" required><br><br>
+        <input type="text" id="lastname" name="lastname" value="${lstname}" required><br><br>
         
         <label for="email">이메일<span style="color: red;">*</span></label><br>
-        <input type="email" id="cmail" name="cmail" required><br><br>
+        <input type="email" id="email" name="email" value="${cmail}" required><br><br>
         
         <label for="confirm">이메일 재입력<span style="color: red;">*</span></label><br>
         <input type="email" id="confirm" name="confirm" required><br><br>

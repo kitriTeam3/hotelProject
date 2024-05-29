@@ -22,12 +22,10 @@ public class Reserve {
 	private String cid;
 	private String tcode;
 	
-	public Reserve() {}
-
-	public Reserve(String rid, String rdate, String firstname, 
-			String lastname, String email, String country,
-			String request, String checkin, String checkout, 
-			int person, char cancel, String tcode) {
+	public Reserve(String rid, String rdate, String firstname, String lastname, 
+			String email, String country,String request,
+			String checkin, String checkout, int person, char cancel, 
+			String pid, String cid, String tcode) {
 		this.rid = rid;
 		this.rdate = rdate;
 		this.firstname = firstname;
@@ -39,16 +37,22 @@ public class Reserve {
 		this.checkout = checkout;
 		this.person = person;
 		this.cancel = cancel;
+		this.pid = pid;
+		this.cid = cid;
 		this.tcode = tcode;
 	}
+	
 
 	@Override
 	public String toString() {
 		return "rid:"+ rid+ ", rdate:"+ rdate+", firstname:"+firstname+", lastname:"+lastname
 				+ ", email:"+ email+", country:"+country+", request:" +request +
 				", checkin:" + checkin+", checkout:" +checkout+", person:" +person
-				+ ", cancel:" + cancel +", tcdoe:" + tcode;
+				+ ", cancel:" + cancel + ", pid:" + pid+", cid:"+ cid + ", tcode:" + tcode;
 	}
+
+
+
 	
 }
 

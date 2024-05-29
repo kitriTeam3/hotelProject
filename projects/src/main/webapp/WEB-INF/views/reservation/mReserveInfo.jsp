@@ -64,15 +64,20 @@
 <body>
 <form action="/projects/mReserveInfo" method="POST">
 
+    	<c:if test="${check eq 'N'}">
+    	  	<script type="text/javascript">
+			alert('이메일이 일치하지 않습니다.');
+			</script>
+        </c:if>
 
         <label for="firstname">영문 이름 (First Name)<span style="color: red;">*</span></label><br>
-        <input type="text" id="firstname" name="firstname" value="${cInfo.firstname}" readonly><br><br>
+        <input type="text" id="firstname" name="firstname" value="${cInfo.firstname}"><br><br>
         
         <label for="lastname">영문 성 (Last Name)<span style="color: red;">*</span></label><br>
-        <input type="text" id="lastname" name="lastname" value="${cInfo.lastname}" readonly><br><br>
+        <input type="text" id="lastname" name="lastname" value="${cInfo.lastname}" ><br><br>
         
         <label for="email">이메일<span style="color: red;">*</span></label><br>
-        <input type="email" id="cmail" name="cmail" value="${cInfo.cmail}" readonly><br><br>
+        <input type="email" id="email" name="email" value="${cInfo.cmail}" readonly><br><br>
         
         <label for="confirm">이메일 재입력<span style="color: red;">*</span></label><br>
         <input type="email" id="confirm" name="confirm" required><br><br>
@@ -100,9 +105,7 @@
         
         <button type="submit">결제하기</button>
         
-        <c:if test="${check eq 'N'}">
-			alert('이메일이 일치하지 않습니다.');
-        </c:if>
+    
 </form>
 </body>
 </html>
