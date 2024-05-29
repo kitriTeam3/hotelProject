@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class SearchResult {
 	//private String tpicture;
+	private String hid;
 	private String hname;
 	private int grade;
 	private int tprice;

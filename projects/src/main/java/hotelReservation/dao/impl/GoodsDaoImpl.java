@@ -104,6 +104,14 @@ public class GoodsDaoImpl implements GoodsDao {
 		
 		return detailList;
 	}
+	
+	@Override
+	public Type goodsType(String tcode) {
+		Type type = sqlSessionTemplate.selectOne(
+				"goods.goodsType", tcode);
+		
+		return type;
+	}
 
 	@Override
 	public Tdetails goodsDetail(String tcode) {

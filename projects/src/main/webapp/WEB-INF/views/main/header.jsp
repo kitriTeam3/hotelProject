@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>HEADER</title>
     <style type="text/css">
         .navbar {
             display: flex;

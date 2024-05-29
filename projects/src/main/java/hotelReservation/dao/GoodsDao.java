@@ -20,5 +20,6 @@ public interface GoodsDao {
 	List<SearchResult> hotelList();
 	List<SearchResult> searchList(Search search);
 	List<Type> hotelDetail(String hid);
+	Type goodsType(String tcode);
 	Tdetails goodsDetail(String tcode);
 }

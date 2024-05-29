@@ -85,6 +85,12 @@ public class GoodsSvcImpl implements GoodsSvc {
 		List<Type> detailList = goodsDao.hotelDetail(hid);
 		return detailList;
 	}
+	
+	@Override
+	public Type goodsType(String tcode) {
+		Type type = goodsDao.goodsType(tcode);
+		return type;
+	}
 
 	@Override
 	public Tdetails goodsDetail(String tcode) {

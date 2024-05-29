@@ -73,17 +73,17 @@
 	<!-- 호텔 리스트 출력 -->
 	<select id="hotelList" resultType="searchResult">
 		<![CDATA[
-		SELECT hname, grade, MIN(tprice) AS tprice
+		SELECT h.hid AS hid, hname, grade, MIN(tprice) AS tprice
 		FROM hotel h, type t
 		WHERE h.hid=t.hid 
-		GROUP BY hname, grade
+		GROUP BY h.hid, hname, grade
 		]]>
 	</select>
 	
 	<!-- 검색 결과 출력 -->
 	<select id="searchList" parameterType="search" resultType="searchResult">
 		<![CDATA[
-		SELECT hname, grade, MIN(tprice) AS tprice
+		SELECT h.hid AS hid, hname, grade, MIN(tprice) AS tprice
 		FROM hotel h
 		JOIN type t ON h.hid=t.hid
 		JOIN stock s ON t.tcode=s.tcode
@@ -91,28 +91,37 @@
 		 AND s.amounts > 0 
 		 AND max=#{max} 
 		 AND location=#{location}
-		GROUP BY hname, grade
+		GROUP BY h.hid, hname, grade
 		]]>
 	</select>
+	
 	<!-- 객실 타입 출력 -->
+	<select id="goodsType" parameterType="String" resultType="type">
+		<![CDATA[
+		SELECT tcode, tname, max, tprice
+		FROM type
+		WHERE tcode=#{tcode}
+		]]>
+	</select>
+	
 	<select id="hotelDetail" parameterType="String" resultType="type">
 		<![CDATA[
-		SELECT tname, max, tprice, s.amounts
+		SELECT DISTINCT t.tcode AS tcode, tname, max, tprice, s.amounts
 		FROM type t
 		JOIN hotel h ON h.hid=t.hid
 		JOIN stock s ON t.tcode=s.tcode
 		WHERE t.hid=#{hid} AND s.sdate > SYSDATE
+		ORDER BY tprice
 		]]>
 	</select>
 	
 	<!-- 객실 세부정보 출력-->
 	<select id="goodsDetail" parameterType="String" resultType="tdetails">
 		<![CDATA[
-		SELECT t.tname, exp, bedtype, bedno, tview, smoke,
+		SELECT exp, bedtype, bedno, tview, smoke,
 			 tszie, bathtype, breakfast
-		FROM tdetails d
-		JOIN type t ON t.tno=d.tno
-		WHERE t.tcode=#{tcode}
+		FROM tdetails
+		WHERE tcode=#{tcode}
 		]]>
 	</select>
 </mapper>

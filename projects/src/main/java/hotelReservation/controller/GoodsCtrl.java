@@ -1,20 +1,15 @@
 package hotelReservation.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import hotelReservation.dto.Search;
-import hotelReservation.dto.SearchResult;
 import hotelReservation.dto.Tdetails;
 import hotelReservation.dto.Type;
 import hotelReservation.dto.UpdateConditions;
@@ -114,20 +109,19 @@ public class GoodsCtrl {
 	}
 	
 	// 호텔 객실 정보 출력
-	@RequestMapping(value="/hoteldetailPage")
-	public String hotelDetail(Model model) {
+	@RequestMapping(value="/hoteldetail")
+	public String hotelDetail(@RequestParam("hid") String hid, Model model) {
+		model.addAttribute("hotel", goodsSvc.selectHotel(hid));
+		model.addAttribute("rooms", goodsSvc.hotelDetail(hid));
 		return "goods/hoteldetail";
 	}
 	
-	@RequestMapping(value="/hoteldetail", method=RequestMethod.POST)
-	public String hotelDetailList(@RequestParam(value="hid") String hid, Model model) {
-		model.addAttribute(goodsSvc.hotelDetail(hid));
-		return "goods/goodsdetail";
-	}
-	
 	// 객실 세부정보 출력
-	@RequestMapping(value="/goodsdetailPage")
-	public String goodsDetail(Model model) {
+	@RequestMapping(value="/goodsdetail")
+	public String goodsDetail(@RequestParam("tcode") String tcode, Model model) {
+		model.addAttribute("room", goodsSvc.goodsType(tcode));
+		model.addAttribute("details", goodsSvc.goodsDetail(tcode));
 		return "goods/goodsdetail";
 	}
 }
+

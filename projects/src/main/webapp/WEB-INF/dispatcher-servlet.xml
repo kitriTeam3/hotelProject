@@ -36,5 +36,5 @@
 		class="org.mybatis.spring.SqlSessionTemplate" 
 		name="sqlSessionTemplate" 
 		c:sqlSessionFactory-ref="sqlSessionFactoryBean" />
-		
+				
 </beans>
