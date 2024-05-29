@@ -1,8 +1,14 @@
 package hotelReservation.svc.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
+
 
 import hotelReservation.dao.impl.LoginDao;
 import hotelReservation.dto.CustomerLogin;
@@ -46,6 +52,18 @@ public class LoginSvcImpl implements LoginSvc {
 		int result = loginDao.cidCheck(cid);
 		return result;
 	}
+	
+	@Override
+	public int eidCheck(String eid) {
+		int result = loginDao.eidCheck(eid);
+		return result;
+	}
+	
+	@Override
+	public int hidCheck(String hid) {
+		int result = loginDao.hidCheck(hid);
+		return result;
+	}
 
 	@Override
 	public String hLogin(HotelLogin hl) {
@@ -83,6 +101,16 @@ public class LoginSvcImpl implements LoginSvc {
 	public int eSignUp(EmployeeSignUp esu) {
 		int count = loginDao.eSignUp(esu);
 		return count;
+	}
+	
+	public Map<String, String> validateHandling(Errors errors){
+		Map<String, String> validatorResult = new HashMap<>();
+		
+		for(FieldError error : errors.getFieldErrors()) {
+			String validKeyName = String.format("valid_%s", error.getField());
+			validatorResult.put(validKeyName, error.getDefaultMessage());
+		}
+		return validatorResult;
 	}
 
 }
