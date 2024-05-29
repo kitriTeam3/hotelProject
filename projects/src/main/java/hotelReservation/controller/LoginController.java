@@ -1,20 +1,27 @@
 package hotelReservation.controller;
 
 
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import hotelReservation.dto.CustomerLogin;
 import hotelReservation.dto.CustomerSignUp;
 import hotelReservation.dto.EmpLogin;
+import hotelReservation.dto.EmployeeSignUp;
 import hotelReservation.dto.HotelLogin;
+import hotelReservation.dto.HotelSignUp;
 import hotelReservation.svc.impl.LoginSvc;
 
 @Controller
@@ -96,21 +103,60 @@ public class LoginController {
 		return "login/csignupform";
 	}
 	
+	
+	
 	@RequestMapping(value = "/cidCheck", method = RequestMethod.POST)
-	public int cidCheck(@RequestParam("cid") String cid) {
+	@ResponseBody
+	public String cidCheck(@RequestParam("cid") String cid) {
 		int result = loginSvc.cidCheck(cid);
-		return result;
+		System.out.println(cid +"\n" + result);
+		if(result == 1) {
+			return "duplicate";
+		}
+		else {
+			return "not_duplicate";
+		}
 	}
+	
 	@RequestMapping(value = "/esignup", method = RequestMethod.GET)
 	public String requestesignup() {
 		return "login/esignupform";
 	}
+	
+	@RequestMapping(value = "/eidCheck", method = RequestMethod.POST)
+	@ResponseBody
+	public String eidCheck(@RequestParam("eid") String eid) {
+		int result = loginSvc.eidCheck(eid);
+		System.out.println(eid +"\n" + result);
+		if(result == 1) {
+			return "duplicate";
+		}
+		else {
+			return "not_duplicate";
+		}
+	}
+	
 	@RequestMapping(value = "/hsignup", method = RequestMethod.GET)
 	public String requesthsignup() {
 		return "login/hsignupform";
 	}
+	
+	@RequestMapping(value = "/hidCheck", method = RequestMethod.POST)
+	@ResponseBody
+	public String hidCheck(@RequestParam("hid") String hid) {
+		int result = loginSvc.hidCheck(hid);
+		System.out.println(hid +"\n" + result);
+		if(result == 1) {
+			return "duplicate";
+		}
+		else {
+			return "not_duplicate";
+		}
+	}
+	
 	@RequestMapping(value = "/csignupctrl")
-	public String cSignUpCtrl(@RequestParam("cid") String cid,
+	public String cSignUpCtrl(
+							@RequestParam("cid") String cid,
 							@RequestParam("cpw") String cpw,
 							@RequestParam("cname") String cname,
 							@RequestParam("firstname") String firstname,
@@ -118,9 +164,60 @@ public class LoginController {
 							@RequestParam("cmail") String cmail,
 							@RequestParam("cphone") String cphone) {
 		
-		CustomerSignUp csu = new CustomerSignUp(cid, cpw, cname, firstname, lastname, cmail, cphone);
-		int result = loginSvc.cSignUp(csu);
-		System.out.println(result);
+		int check = loginSvc.cidCheck(cid);
+		if(check == 1) {
+			return "login/csignupform";
+		}
+		else if(check == 0) {
+			CustomerSignUp csu = new CustomerSignUp(cid, cpw, cname, firstname, lastname, cmail, cphone);
+			int result = loginSvc.cSignUp(csu);
+			System.out.println(result);
+		}
+		
+		return "login/loginform";
+	}
+	
+	@RequestMapping(value = "/esignupctrl")
+	public String eSignUpCtrl(
+							@RequestParam("eid") String eid,
+							@RequestParam("epw") String epw,
+							@RequestParam("ename") String ename,
+							@RequestParam("email") String email,
+							@RequestParam("ephone") String ephone) {
+		
+		int check = loginSvc.eidCheck(eid);
+		if(check == 1) {
+			return "login/esignupform";
+		}
+		else if(check == 0) {
+			EmployeeSignUp esu = new EmployeeSignUp(eid, epw, ename, email, ephone);
+			int result = loginSvc.eSignUp(esu);
+			System.out.println(result);
+		}
+		
+		return "login/loginform";
+	}
+	
+	@RequestMapping(value = "/hsignupctrl")
+	public String hSignUpCtrl(
+							@RequestParam("hid") String hid,
+							@RequestParam("hpw") String hpw,
+							@RequestParam("hname") String hname,
+							@RequestParam("grade") String grade,
+							@RequestParam("location") String location,
+							@RequestParam("hmail") String hmail,
+							@RequestParam("hphone") String hphone) {
+		
+		int check = loginSvc.hidCheck(hid);
+		if(check == 1) {
+			return "login/hsignupform";
+		}
+		else if(check == 0) {
+			HotelSignUp hsu = new HotelSignUp(hid, hpw, hname, grade, location, hmail, hphone);
+			int result = loginSvc.hSignUp(hsu);
+			System.out.println(result);
+		}
+		
 		return "login/loginform";
 	}
 }

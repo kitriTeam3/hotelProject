@@ -61,6 +61,22 @@
 		]]>
 	</select>
 	
+	<select id="eidCheck" resultType="int">
+		<![CDATA[
+		SELECT count(*)
+		FROM emp
+		WHERE eid = #{eid}
+		]]>
+	</select>
+	
+	<select id="hidCheck" resultType="int">
+		<![CDATA[
+		SELECT count(*)
+		FROM hotel
+		WHERE hid = #{hid}
+		]]>
+	</select>
+	
 	<insert id="cSignUp" parameterType="customerSignUp">
 		<![CDATA[
 		INSERT INTO customer VALUES(#{cid}, #{cpw}, #{cname}, #{firstname}, #{lastname}, #{cmail}, #{cphone}, to_date(sysdate,'yy/mm/dd'), '일반')
@@ -69,7 +85,7 @@
 	
 	<insert id="eSignUp" parameterType="employeeSignUp">
 		<![CDATA[
-		INSERT INTO emp VALUES(#{eid}, #{epw}, #{ename}, #{email}, #{ephone}, 1, '인턴', 'y', to_date(sysdate, 'yy/mm/dd'))
+		INSERT INTO emp VALUES(#{eid}, #{epw}, #{ename}, #{email}, #{ephone}, 1, '인턴', 'y', to_date(sysdate, 'yy/mm/dd'), null)
 		]]>
 	</insert>
 	
