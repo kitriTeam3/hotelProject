@@ -28,7 +28,7 @@
 		]]>
 	</select>
 	
-	<select id="cMyinfo" parameterType="string" resultType="customerSignUp">
+	<select id="cMyinfo" parameterType="string" resultType="customerMyinfo">
 		<![CDATA[
 		SELECT cname, firstname, lastname, cmail, cphone
 		FROM customer
@@ -36,15 +36,15 @@
 		]]>
 	</select>
 	
-	<select id="eMyinfo" parameterType="string" resultType="employeeSignUp">
+	<select id="eMyinfo" parameterType="string" resultType="employeeMyinfo">
 		<![CDATA[
-		SELECT ename, email, ephone, posion
+		SELECT ename, email, ephone, position, status, joindate
 		FROM emp
 		WHERE eid = #{eid}
 		]]>
 	</select>
 	
-	<select id="hMyinfo" parameterType="string" resultType="hotelSignUp">
+	<select id="hMyinfo" parameterType="string" resultType="hotelMyinfo">
 		<![CDATA[
 		SELECT hname, grade, location, hmail, hphone
 		FROM hotel
@@ -94,4 +94,25 @@
 		INSERT INTO hotel VALUES(#{hid}, #{hpw}, #{hname}, #{grade}, #{location}, #{hmail}, #{hphone}, to_date(sysdate, 'yy/mm/dd'))
 		]]>
 	</insert>
+	
+	<update id="updateCustomer" parameterType="updateCus">
+		<![CDATA[
+		UPDATE customer SET cmail = #{cmail} AND cphone = #{cphone}
+		WHERE cid = #{cid}
+		]]>
+	</update>
+	
+	<update id="updateEmployee" parameterType="updateEmp">
+		<![CDATA[
+		UPDATE emp SET email = #{email} AND ephone = #{ephone}
+		WHERE eid = #{eid}
+		]]>
+	</update>
+	
+	<update id="updateHotel" parameterType="updateHotel">
+		<![CDATA[
+		UPDATE hotel SET hmail = #{hmail} AND hphone = #{hphone}
+		WHERE hid = #{hid}
+		]]>
+	</update>
 </mapper>

@@ -12,11 +12,17 @@ import org.springframework.validation.FieldError;
 
 import hotelReservation.dao.impl.LoginDao;
 import hotelReservation.dto.CustomerLogin;
+import hotelReservation.dto.CustomerMyinfo;
 import hotelReservation.dto.CustomerSignUp;
 import hotelReservation.dto.EmpLogin;
+import hotelReservation.dto.EmployeeMyinfo;
 import hotelReservation.dto.EmployeeSignUp;
 import hotelReservation.dto.HotelLogin;
+import hotelReservation.dto.HotelMyinfo;
 import hotelReservation.dto.HotelSignUp;
+import hotelReservation.dto.UpdateCus;
+import hotelReservation.dto.UpdateEmp;
+import hotelReservation.dto.UpdateHotel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,9 +41,8 @@ public class LoginSvcImpl implements LoginSvc {
 	}
 
 	@Override
-	public CustomerSignUp cMyinfo(String cid) {
-		// TODO Auto-generated method stub
-		return null;
+	public CustomerMyinfo cMyinfo(String cid) {
+		return loginDao.cMyinfo(cid);
 	}
 
 	@Transactional
@@ -72,9 +77,9 @@ public class LoginSvcImpl implements LoginSvc {
 	}
 
 	@Override
-	public HotelSignUp hMyinfo(String hid) {
-		// TODO Auto-generated method stub
-		return null;
+	public HotelMyinfo hMyinfo(String hid) {
+		
+		return loginDao.hMyinfo(hid);
 	}
 
 	@Transactional
@@ -91,9 +96,9 @@ public class LoginSvcImpl implements LoginSvc {
 	}
 
 	@Override
-	public EmployeeSignUp eMyinfo(String eid) {
-		// TODO Auto-generated method stub
-		return null;
+	public EmployeeMyinfo eMyinfo(String eid) {
+		
+		return loginDao.eMyinfo(eid);
 	}
 
 	@Transactional
@@ -111,6 +116,24 @@ public class LoginSvcImpl implements LoginSvc {
 			validatorResult.put(validKeyName, error.getDefaultMessage());
 		}
 		return validatorResult;
+	}
+	
+	@Override
+	public int updateCustomer(UpdateCus uc) {
+		
+		return loginDao.updateCustomer(uc);
+	}
+	
+	@Override
+	public int updateEmployee(UpdateEmp ue) {
+		
+		return loginDao.updateEmployee(ue);
+	}
+	
+	@Override
+	public int updateHotel(UpdateHotel uh) {
+		
+		return loginDao.updateHotel(uh);
 	}
 
 }

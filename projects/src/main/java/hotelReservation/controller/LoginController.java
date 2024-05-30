@@ -1,15 +1,12 @@
 package hotelReservation.controller;
 
 
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +19,7 @@ import hotelReservation.dto.EmpLogin;
 import hotelReservation.dto.EmployeeSignUp;
 import hotelReservation.dto.HotelLogin;
 import hotelReservation.dto.HotelSignUp;
+import hotelReservation.dto.UpdateCus;
 import hotelReservation.svc.impl.LoginSvc;
 
 @Controller
@@ -30,11 +28,13 @@ public class LoginController {
 	@Autowired
 	LoginSvc loginSvc;
 	
+	// 로그인 페이지 이동
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String requestLoginPage() {
 		return "login/loginform";
 	}
 	
+	// 고객 로그인 컨트롤
 	@RequestMapping(value = "/cloginctrl", method = RequestMethod.POST)
 	public ModelAndView cLoginCtrl(@RequestParam("cid") String cid,
 			@RequestParam("cpw") String cpw, HttpSession session) {
@@ -47,7 +47,7 @@ public class LoginController {
 			session.setAttribute("cid", cid);
 			session.setAttribute("cpw", cpw);
 			mv.addObject("msg", cname);
-			mv.setViewName("login/success");
+			mv.setViewName("login/csuccess");
 			
 		}
 		else {
@@ -56,6 +56,7 @@ public class LoginController {
 		return mv;
 	}
 	
+	// 사원 로그인 컨트롤
 	@RequestMapping(value = "/eloginctrl", method = RequestMethod.POST)
 	public ModelAndView eLoginCtrl(@RequestParam("eid") String eid,
 			@RequestParam("epw") String epw, HttpSession session) {
@@ -77,6 +78,7 @@ public class LoginController {
 		return mv;
 	}
 	
+	// 호텔 로그인 컨트롤
 	@RequestMapping(value = "/hloginctrl", method = RequestMethod.POST)
 	public ModelAndView hLoginCtrl(@RequestParam("hid") String hid,
 			@RequestParam("hpw") String hpw, HttpSession session) {
@@ -98,13 +100,14 @@ public class LoginController {
 		return mv;
 	}
 	
+	// 고객 회원가입 페이지 이동
 	@RequestMapping(value = "/csignup", method = RequestMethod.GET)
 	public String requestcsignup() {
 		return "login/csignupform";
 	}
 	
 	
-	
+	// 고객 회원가입 중복체크
 	@RequestMapping(value = "/cidCheck", method = RequestMethod.POST)
 	@ResponseBody
 	public String cidCheck(@RequestParam("cid") String cid) {
@@ -118,11 +121,13 @@ public class LoginController {
 		}
 	}
 	
+	// 사원 회원가입 페이지 이동
 	@RequestMapping(value = "/esignup", method = RequestMethod.GET)
 	public String requestesignup() {
 		return "login/esignupform";
 	}
 	
+	// 사원 회원가입 중복 체크
 	@RequestMapping(value = "/eidCheck", method = RequestMethod.POST)
 	@ResponseBody
 	public String eidCheck(@RequestParam("eid") String eid) {
@@ -136,11 +141,13 @@ public class LoginController {
 		}
 	}
 	
+	// 호텔 회원가입 페이지 이동
 	@RequestMapping(value = "/hsignup", method = RequestMethod.GET)
 	public String requesthsignup() {
 		return "login/hsignupform";
 	}
 	
+	// 호텔 회원가입 중복체크
 	@RequestMapping(value = "/hidCheck", method = RequestMethod.POST)
 	@ResponseBody
 	public String hidCheck(@RequestParam("hid") String hid) {
@@ -154,6 +161,7 @@ public class LoginController {
 		}
 	}
 	
+	// 고객 회원가입 컨트롤
 	@RequestMapping(value = "/csignupctrl")
 	public String cSignUpCtrl(
 							@RequestParam("cid") String cid,
@@ -177,6 +185,7 @@ public class LoginController {
 		return "login/loginform";
 	}
 	
+	// 사원 회원가입 컨트롤
 	@RequestMapping(value = "/esignupctrl")
 	public String eSignUpCtrl(
 							@RequestParam("eid") String eid,
@@ -198,6 +207,7 @@ public class LoginController {
 		return "login/loginform";
 	}
 	
+	// 호텔 회원가입 컨트롤
 	@RequestMapping(value = "/hsignupctrl")
 	public String hSignUpCtrl(
 							@RequestParam("hid") String hid,
@@ -220,4 +230,86 @@ public class LoginController {
 		
 		return "login/loginform";
 	}
+	
+	// 고객 정보 조회 후 확인 버튼 누르면 나오는 페이지
+	@RequestMapping(value = "/csuccess")
+	public String requestCsuccessPage(HttpSession session, Model model) {
+		String cid = (String)session.getAttribute("cid");
+		String cpw = (String)session.getAttribute("cpw");
+		CustomerLogin cl = new CustomerLogin(cid, cpw);
+		String cname = loginSvc.cLogin(cl);
+		model.addAttribute("msg", cname);
+		return "login/csuccess";
+	}
+		
+	// 고객 정보 조회 후 확인 버튼 누르면 나오는 페이지
+	@RequestMapping(value = "/esuccess")
+	public String requestEsuccessPage(HttpSession session, Model model) {
+		String eid = (String)session.getAttribute("eid");
+		String epw = (String)session.getAttribute("epw");
+		EmpLogin el = new EmpLogin(eid, epw);
+		String ename = loginSvc.eLogin(el);
+		model.addAttribute("msg", ename);
+		return "login/esuccess";
+	}
+		
+	// 호텔 로그인 성공 했을 때 페이지
+	@RequestMapping(value = "/hsuccess")
+	public String requestHsuccessPage(HttpSession session, Model model) {
+		String hid = (String)session.getAttribute("hid");
+		String hpw = (String)session.getAttribute("hpw");
+		HotelLogin hl = new HotelLogin(hid, hpw);
+		String hname = loginSvc.hLogin(hl);
+		model.addAttribute("msg", hname);
+		return "login/hsuccess";
+	}
+	
+	// 고객 정보 조회
+	@RequestMapping(value="/cmyinfoctrl")
+	public String cmyinfoctrl(Model model, HttpSession session) {
+		
+		String cid = (String)session.getAttribute("cid");
+		model.addAttribute("cmyinfo", loginSvc.cMyinfo(cid));
+		return "login/cmyinfoform";
+	}
+	
+	// 사원 정보 조회 
+	@RequestMapping(value="/emyinfoctrl")
+	public String emyinfoctrl(Model model, HttpSession session) {
+		
+		String eid = (String)session.getAttribute("eid");
+		model.addAttribute("emyinfo", loginSvc.eMyinfo(eid));
+		return "login/emyinfoform";
+	}
+	
+	// 호텔 정보 조회 
+	@RequestMapping(value="/hmyinfoctrl")
+	public String hmyinfoctrl(Model model, HttpSession session) {
+		
+		String hid = (String)session.getAttribute("hid");
+		model.addAttribute("hmyinfo", loginSvc.hMyinfo(hid));
+		return "login/hmyinfoform";
+	}
+	
+	// 로그아웃
+	@RequestMapping(value="/logout")
+	public String logoutctrl(Model model, HttpSession session) {
+		session.invalidate();
+		return "login/loginform";
+	}
+	
+	@RequestMapping(value="/updatecustomer")
+	public String updateCmyinfo(@RequestParam("cmail") String cmail,
+								@RequestParam("cphone") String cphone,
+								Model model, HttpSession session) {
+		String cid = (String)session.getAttribute("cid");
+		UpdateCus uc = new UpdateCus(cid, cmail, cphone);
+		int result = loginSvc.updateCustomer(uc);
+		System.out.println(result);
+		model.addAttribute("uc", uc);
+		return "login/cmyinfoform";
+		
+	}
+	
+	
 }

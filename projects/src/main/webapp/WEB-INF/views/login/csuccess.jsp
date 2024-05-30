@@ -7,9 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	호텔명: ${msg}
+	이름: ${msg}
 	<button type="button" onclick="location.href='/projects/logout'">로그아웃</button>
-	<button type="button" onclick="location.href='/projects/hmyinfoctrl'">내 정보 조회</button>
+	<button type="button" onclick="location.href='/projects/cmyinfoctrl'">내 정보 조회</button>
 	
 	
 </body>
