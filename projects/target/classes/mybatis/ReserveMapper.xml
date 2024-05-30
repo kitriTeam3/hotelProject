@@ -66,12 +66,12 @@
 	]]>
 	</select>
 	
-	<select id="bookByYear" parameterType="String" resultType="reserve"> 
+	<select id="bookByDate" parameterType="String" resultType="reserve"> 
 	<![CDATA[
 	SELECT rid, rdate, firstname, lastname, email, country, request, 
 		   checkin, checkout, person, cancel, pid, cid, tcode  
 	FROM reserve
-	WHERE rdate BETWEEN '#{year}-01-01' AND '#{year}-12-31'
+	WHERE rdate=TO_DATE(#{rdate}, 'YYYY-MM-DD')
 	]]>
 	</select>
 	
@@ -81,12 +81,12 @@
 	SELECT rid, rdate, firstname, lastname, email, country, request, 
 		   checkin, checkout, person, cancel, pid, cid, tcode  
 	FROM reserve
-	WHERE rdate BETWEEN '#{year}-#{month}-01' AND ADD_MONTHS('#{year}-#{month}-01', 1)
+	WHERE rdate BETWEEN #{rdate} AND ADD_MONTHS(#{rdate}, 1)
 	MINUS
 	SELECT rid, rdate, firstname, lastname, email, country, request, 
 		   checkin, checkout, person, cancel, pid, cid, tcode  
 	FROM reserve
-	WHERE rdate=ADD_MONTHS('#{year}-#{month}-01', 1)
+	WHERE rdate=ADD_MONTHS(#{rdate}, 1)
 	]]>
 	</select>
 	

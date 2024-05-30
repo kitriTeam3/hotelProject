@@ -11,7 +11,6 @@ import hotelReservation.dao.reservation.ReserveDao;
 import hotelReservation.dto.CreateRid;
 import hotelReservation.dto.CustomerInfo;
 import hotelReservation.dto.MyReserve;
-import hotelReservation.dto.Rdate;
 import hotelReservation.dto.Reserve;
 import lombok.Getter;
 import lombok.Setter;
@@ -76,20 +75,20 @@ public class ReserveDaoImpl implements ReserveDao {
 	}
 
 	@Override
-	public Reserve bookById(String rid) {
-		Reserve reservation = sqlSessionTemplate.selectOne("reserve.bookById", rid);
-		return reservation;
-	}
-
-	@Override
-	public List<Reserve> bookByYear(int year) {
-		List<Reserve> bookList = sqlSessionTemplate.selectList("reserve.bookByYear", year);
+	public List<Reserve> bookById(String rid) {
+		List<Reserve>  bookList = sqlSessionTemplate.selectOne("reserve.bookById", rid);
 		return bookList;
 	}
 
 	@Override
-	public List<Reserve> bookByMonth(Rdate rdate) {
-		List<Reserve> bookList = sqlSessionTemplate.selectList("reserve.bookByCustomer", rdate);
+	public List<Reserve> bookByDate(String rdate) {
+		List<Reserve> bookList = sqlSessionTemplate.selectList("reserve.bookByDate", rdate);
+		return bookList;
+	}
+
+	@Override
+	public List<Reserve> bookByMonth(String rdate) {
+		List<Reserve> bookList = sqlSessionTemplate.selectList("reserve.bookByMonth", rdate);
 		return bookList;
 	}
 

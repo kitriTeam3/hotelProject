@@ -10,7 +10,6 @@ import hotelReservation.dao.reservation.ReserveDao;
 import hotelReservation.dto.CreateRid;
 import hotelReservation.dto.CustomerInfo;
 import hotelReservation.dto.MyReserve;
-import hotelReservation.dto.Rdate;
 import hotelReservation.dto.Reserve;
 import hotelReservation.svc.reservation.ReserveSvc;
 import lombok.Getter;
@@ -76,19 +75,19 @@ public class ReserveSvcImpl implements ReserveSvc {
 	}
 
 	@Override
-	public Reserve bookById(String rid) {
-		Reserve reservation = reserveDao.bookById(rid);
-		return reservation;
-	}
-
-	@Override
-	public List<Reserve> bookByYear(int year) {
-		List<Reserve> bookList = reserveDao.bookByYear(year);
+	public List<Reserve> bookById(String rid) {
+		List<Reserve> bookList = reserveDao.bookById(rid);
 		return bookList;
 	}
 
 	@Override
-	public List<Reserve> bookByMonth(Rdate rdate) {
+	public List<Reserve> bookByDate(String year) {
+		List<Reserve> bookList = reserveDao.bookByDate(year);
+		return bookList;
+	}
+
+	@Override
+	public List<Reserve> bookByMonth(String rdate) {
 		List<Reserve> bookList = reserveDao.bookByMonth(rdate);
 		return bookList;
 	}

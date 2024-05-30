@@ -5,7 +5,6 @@ import java.util.List;
 import hotelReservation.dto.CreateRid;
 import hotelReservation.dto.CustomerInfo;
 import hotelReservation.dto.MyReserve;
-import hotelReservation.dto.Rdate;
 import hotelReservation.dto.Reserve;
 
 
@@ -20,8 +19,8 @@ public interface ReserveDao {
 	
 	List<MyReserve> myReservation(String cid);
 	List<Reserve> bookByCustomer(String cid);
-	Reserve bookById(String rid);
-	List<Reserve> bookByYear(int year);
-	List<Reserve> bookByMonth(Rdate rdate);
+	List<Reserve> bookById(String rid);
+	List<Reserve> bookByDate(String rdate);
+	List<Reserve> bookByMonth(String rdate);
 	
 }

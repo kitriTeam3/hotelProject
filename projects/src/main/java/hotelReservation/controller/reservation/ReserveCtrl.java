@@ -202,4 +202,52 @@ public class ReserveCtrl {
 
 	}
 
+	
+	// 호텔 고객 예약 페이지
+	@RequestMapping(value="/hotelBook")
+	public String hotelBook() {
+		return "reservation/cReservation";
+	}
+	
+	
+	// 호텔 고객 예약 조회 (view->ctrl)
+	@RequestMapping(value="/cReservation", method= RequestMethod.POST)
+	public String nReserveInfo(HttpServletRequest req, 
+			@RequestParam("search") String search, @RequestParam("cid") String cid,
+			@RequestParam("rid") String rid, @RequestParam("month") String mdate,
+			@RequestParam("date") String rdate, ModelMap model) {
+		
+		List<Reserve> bookList;
+		//라디오 값 체크
+		System.out.println("검색방법"+search);
+		// 고객아이디 검색
+		if(search.equals("1")) {
+			System.out.println("고객아이디:"+cid);
+			bookList = reserveSvc.bookByCustomer(cid);
+			model.addAttribute("bookList", bookList);
+		}  
+		// 예약아이디 검색
+		else if (search.equals("2")) {
+			System.out.println("예약아이디:"+rid);
+			bookList = reserveSvc.bookById(rid);
+			model.addAttribute("bookList", bookList);
+		} 
+		// 년월 검색
+		else if (search.equals("3")) {
+			System.out.println("날짜:"+mdate);
+			mdate= mdate+"-01";
+			bookList = reserveSvc.bookByMonth(mdate);
+			model.addAttribute("bookList", bookList);
+		} 
+		//년월일 검색
+		else if (search.equals("4")) {
+			System.out.println("날짜:"+rdate);
+			bookList = reserveSvc.bookByDate(rdate);
+			model.addAttribute("bookList", bookList);
+		}
+
+		return "reservation/cReservation";
+	}
+	
+	
 }

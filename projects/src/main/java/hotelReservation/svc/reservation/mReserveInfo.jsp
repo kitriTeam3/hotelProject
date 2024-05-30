@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>예약/결제 내역</title>
+    <title>나의 예약 내역</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -36,7 +36,6 @@
     </style>
 </head>
 <body>
-   <form action="/projects/myReservation" method="POST" >
     <h1>나의 예약 내역</h1>
     <table>
         <thead>
@@ -55,7 +54,7 @@
 						<td>${List.rid}</td>
                			 <td>${List.hname} <br> ${List.exp}<br> ${List.bedtype} <br> 인원수:${List.person} </td>
                			 <td>${List.rdate}</td>
-			 			 <td class="status-complete">예약완료<br><button type="submit" id="cancel" name="cancel" value="${List.rid}">예약취소</button></td>
+			 			 <td class="status-complete">예약완료<br><button class="cancel-button">예약취소</button></td>
 			  			 <td>${List.price}</td>
 						</tr>
 					</c:forEach>
@@ -65,6 +64,5 @@
             <!-- Add more rows as needed -->
         </tbody>
     </table>
-    </form>
 </body>
 </html>
