@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import hotelReservation.dao.GoodsDao;
 import hotelReservation.dto.Hotel;
 import hotelReservation.dto.Search;
+import hotelReservation.dto.SearchResult;
 import hotelReservation.dto.Tdetails;
 import hotelReservation.dto.Type;
 import hotelReservation.dto.UpdateConditions;
@@ -43,7 +44,6 @@ public class GoodsDaoImpl implements GoodsDao {
 	public String findMaxTcode(String hid) {
 		String findTcode = sqlSessionTemplate.selectOne(
 				"goods.findMaxTcode", hid);
-				
 		return findTcode;
 	}
 		
@@ -62,8 +62,14 @@ public class GoodsDaoImpl implements GoodsDao {
 		
 		return  count;
 	}
-	
 
+	@Override
+	public String findTcode(String hid) {
+		String findTcode = sqlSessionTemplate.selectOne(
+				"goods.findTcode", hid);
+		return findTcode;
+	}
+	
 	@Override
 	public int registerGoodsDetail(Tdetails tdetails) {
 		int count = sqlSessionTemplate.insert(
@@ -73,8 +79,8 @@ public class GoodsDaoImpl implements GoodsDao {
 	}
 
 	@Override
-	public List<Hotel> hotelList() {
-		List<Hotel> hotelList = 
+	public List<SearchResult> hotelList() {
+		List<SearchResult> hotelList = 
 				sqlSessionTemplate.selectList(
 						"goods.hotelList");
 		
@@ -82,8 +88,8 @@ public class GoodsDaoImpl implements GoodsDao {
 	}
 
 	@Override
-	public List<Hotel> searchList(Search search) {
-		List<Hotel> searchList = 
+	public List<SearchResult> searchList(Search search) {
+		List<SearchResult> searchList = 
 				sqlSessionTemplate.selectList(
 						"goods.searchList", search);
 		
@@ -97,6 +103,14 @@ public class GoodsDaoImpl implements GoodsDao {
 						"goods.hotelDetail", hid);
 		
 		return detailList;
+	}
+	
+	@Override
+	public Type goodsType(String tcode) {
+		Type type = sqlSessionTemplate.selectOne(
+				"goods.goodsType", tcode);
+		
+		return type;
 	}
 
 	@Override

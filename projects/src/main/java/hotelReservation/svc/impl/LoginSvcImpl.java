@@ -17,6 +17,7 @@ import hotelReservation.dto.EmpLogin;
 import hotelReservation.dto.EmployeeSignUp;
 import hotelReservation.dto.HotelLogin;
 import hotelReservation.dto.HotelSignUp;
+import hotelReservation.svc.impl.LoginSvc;
 import lombok.Getter;
 import lombok.Setter;
 

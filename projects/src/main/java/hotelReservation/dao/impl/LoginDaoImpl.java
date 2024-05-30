@@ -4,6 +4,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import hotelReservation.dao.impl.LoginDao;
 import hotelReservation.dto.CustomerLogin;
 import hotelReservation.dto.CustomerSignUp;
 import hotelReservation.dto.EmpLogin;
