@@ -13,6 +13,8 @@ public interface LoginDao {
 	CustomerSignUp cMyinfo(String cid);
 	int cSignUp(CustomerSignUp csu);
 	int cidCheck(String cid);
+	int eidCheck(String eid);
+	int hidCheck(String hid);
 	String hLogin(HotelLogin hl);
 	HotelSignUp hMyinfo(String hid);
 	int hSignUp(HotelSignUp hsu);

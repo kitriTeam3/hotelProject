@@ -1,5 +1,10 @@
 package hotelReservation.dto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,11 +12,22 @@ import lombok.Setter;
 @Setter
 public class CustomerSignUp {
 	
+	
 	private String cid;
+	
+	
 	private String cpw;
+	
+	
 	private String cname;
+	
+	
 	private String firstname;
+	
+	
 	private String lastname;
+	
+	
 	private String cmail;
 	private String cphone;
 	

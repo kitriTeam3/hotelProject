@@ -42,8 +42,17 @@ public class LoginDaoImpl implements LoginDao {
 	
 	@Override
 	public int cidCheck(String cid) {
-		int result = sqlSessionTemplate.selectOne("login.cidCheck", cid);
-		return result;
+		return sqlSessionTemplate.selectOne("login.cidCheck", cid);
+	}
+	
+	@Override
+	public int eidCheck(String eid) {
+		return sqlSessionTemplate.selectOne("login.eidCheck", eid);
+	}
+	
+	@Override
+	public int hidCheck(String hid) {
+		return sqlSessionTemplate.selectOne("login.cidCheck", hid);
 	}
 
 	@Override

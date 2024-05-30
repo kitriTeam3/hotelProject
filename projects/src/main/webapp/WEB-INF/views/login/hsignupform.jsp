@@ -22,37 +22,42 @@
 			})
 			
 			$("#submit").on("click", function(){
-				if($("#cid").val()==""){
+				if($("#hid").val()==""){
 					alert("아이디를 입력해주세요.");
-					$("cid").focus();
+					$("hid").focus();
 					return false;
 				}
-				if($("#cpw").val()==""){
+				if($("#hpw").val()==""){
 					alert("비밀번호를 입력해주세요.");
-					$("#cpw").focus();
+					$("#hpw").focus();
 					return false;
 				}
-				if($("#cname").val()==""){
-					alert("성명을 입력해주세요.");
-					$("#cname").focus();
+				if($("#hname").val()==""){
+					alert("업체명을 입력해주세요.");
+					$("#hname").focus();
 					return false;
 				}
-				if($("#firstname").val()==""){
-					alert("영어 성명을 입력해주세요.");
+				if($("#grade").val()==""){
+					alert("등급을 입력해주세요.");
 					$("#firstname").focus();
 					return false;
 				}
-				if($("#lastname").val()==""){
-					alert("영어 성을 입력해주세요.");
-					$("#lastname").focus();
+				if($("#location").val()==""){
+					alert("위치를 입력해주세요.");
+					$("#location").focus();
 					return false;
 				}
-				if($("#cmail").val()==""){
+				if($("#hmail").val()==""){
 					alert("이메일을 입력해주세요.");
-					$("#cmail").focus();
+					$("#hmail").focus();
 					return false;
 				}
-				var idChkVal = $("#cidCheck").val();
+				if($("#hphone").val()==""){
+					alert("전화번호를 입력해주세요.");
+					$("#hphone").focus();
+					return false;
+				}
+				var idChkVal = $("#hidCheck").val();
 				if(idChkVal == "N"){
 					alert("중복확인 버튼을 눌러주세요.");
 				}else if(idChkVal == "Y"){
@@ -61,13 +66,13 @@
 			});
 		})
 		
-		function fn_cidCheck() {
+		function fn_hidCheck() {
     // 입력된 아이디 가져오기
-    var cid = document.getElementById('cid').value;
+    var hid = document.getElementById('hid').value;
 
     // AJAX를 이용한 요청 보내기
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/projects/cidCheck', true); // 중복 체크를 처리하는 컨트롤러 엔드포인트로 설정
+    xhr.open('POST', '/projects/hidCheck', true); // 중복 체크를 처리하는 컨트롤러 엔드포인트로 설정
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -80,7 +85,7 @@
                     alert('이미 사용 중인 아이디입니다.');
                 } else {
                     // 중복되지 않은 아이디인 경우
-                    $('#cidCheck').attr("value", "Y");
+                    $('#hidCheck').attr("value", "Y");
                     alert('사용 가능한 아이디입니다.');
                 }
             } else {
@@ -89,54 +94,46 @@
             }
         }
     };
-    xhr.send('cid=' + encodeURIComponent(cid));
+    xhr.send('hid=' + encodeURIComponent(hid));
 }
-	
-		// 전화번호에 하이픈 추가하는 함수
-	    function autoHyphen(input) {
-    // 숫자만 남기고 모든 문자 제거
-    var phoneNumber = input.value.replace(/[^\d]/g, "");
-
-    // 전화번호 형식에 맞게 하이푼 추가
-    if (phoneNumber.length >= 4 && phoneNumber.length <= 7) {
-        input.value = phoneNumber.slice(0, 3) + "-" + phoneNumber.slice(3);
-    } else if (phoneNumber.length >= 8) {
-        input.value = phoneNumber.slice(0, 3) + "-" + phoneNumber.slice(3, 7) + "-" + phoneNumber.slice(7);
-    }
-}
+		const autoHyphen = (target) => {
+			 target.value = target.value
+			   .replace(/[^0-9]/g, '')
+			   .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+			}
 	</script>
 </head>
 <body>
 	<section id="container">
-		<form action="/projects/csignupctrl" method="post" id="regForm">
+		<form action="/projects/hsignupctrl" method="post" id="regForm">
 			<div class="form-group has-feedback">
-				<label class="control-label" for="cid">아이디</label>
-				<input class="form-control" type="text" id="cid" name="cid"/>
-				<button class="cidCheck" type="button" id="cidCheck" onclick="fn_cidCheck();" value="N">중복확인</button>
+				<label class="control-label" for="hid">아이디</label>
+				<input class="form-control" type="text" id="hid" name="hid"/>
+				<button class="hidCheck" type="button" id="hidCheck" onclick="fn_hidCheck();" value="N">중복확인</button>
 			</div>
 			<div class="form-group has-feedback">
-				<label class="control-label" for="cpw">비밀번호</label>
-				<input class="form-control" type="password" id="cpw" name="cpw"/>
+				<label class="control-label" for="hpw">비밀번호</label>
+				<input class="form-control" type="password" id="hpw" name="hpw"/>
 			</div>
 			<div class="form-group has-feedback">
-				<label class="control-label" for="cname">이름</label>
-				<input class="form-control" type="text" id="cname" name="cname"/>
+				<label class="control-label" for="hname">업체명</label>
+				<input class="form-control" type="text" id="hname" name="hname"/>
 			</div>
 			<div class="form-group has-feedback">
-				<label class="control-label" for="firstname">영문이름</label>
-				<input class="form-control" type="text" id="firstname" name="firstname"/>
+				<label class="control-label" for="grade">등급</label>
+				<input class="form-control" type="text" id="grade" name="grade"/>
 			</div>
 			<div class="form-group has-feedback">
-				<label class="control-label" for="lastname">영문 성</label>
-				<input class="form-control" type="text" id="lastname" name="lastname"/>
+				<label class="control-label" for="location">위치</label>
+				<input class="form-control" type="text" id="location" name="location"/>
 			</div>
 			<div class="form-group has-feedback">
-				<label class="control-label" for="cmail">이메일</label>
-				<input class="form-control" type="text" id="cmail" name="cmail"/>
+				<label class="control-label" for="hmail">이메일</label>
+				<input class="form-control" type="text" id="hmail" name="hmail"/>
 			</div>
 			<div class="form-group has-feedback">
-				<label class="control-label" for="cphone">전화번호</label>
-				<input class="form-control" type="text" id="cphone" name="cphone" oninput="autoHyphen(this)"/>
+				<label class="control-label" for="hphone">전화번호</label>
+				<input class="form-control" type="text" id="hphone" name="hphone" oninput="autoHyphen(this)" maxlength="13" autofocus/>
 			</div>
 		</form>
 			<div class="form-group has-feedback">
