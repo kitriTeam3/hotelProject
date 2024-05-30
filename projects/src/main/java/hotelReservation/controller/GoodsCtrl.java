@@ -1,5 +1,8 @@
 package hotelReservation.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -31,10 +34,12 @@ public class GoodsCtrl {
 	@RequestMapping(value="/goodsregisterPage")
 	public String goodsRegister(HttpServletRequest request, Model model) {
 		HttpSession session = request.getSession(false);
-		String hid = (String) session.getAttribute("hid");
-		if(hid != null) {
-			model.addAttribute("hotel", goodsSvc.selectHotel(hid));
-		} 
+		if(session != null) {
+			String hid = (String) session.getAttribute("hid");
+			if(hid != null) {
+				model.addAttribute("hotel", goodsSvc.selectHotel(hid));
+			} 
+		}
 		return "goods/goodsregister";
 	}
 	
@@ -47,14 +52,16 @@ public class GoodsCtrl {
 			@RequestParam("amounts") int amounts,
 			Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		String hid = (String) session.getAttribute("hid");
-		String tcode = goodsSvc.findMaxTcode(hid);
+		if(session != null) {
+			String hid = (String) session.getAttribute("hid");
+			String tcode = goodsSvc.findMaxTcode(hid);
 		
-		UpdateConditions update = new UpdateConditions(hid, location, grade);
-		model.addAttribute(goodsSvc.updateHotel(update));
-		
-		Type type = new Type(tcode, tname, max, tprice, amounts, hid);
-		model.addAttribute(goodsSvc.registerGoods(type));
+			UpdateConditions update = new UpdateConditions(hid, location, grade);
+			model.addAttribute(goodsSvc.updateHotel(update));
+			
+			Type type = new Type(tcode, tname, max, tprice, amounts, hid);
+			model.addAttribute(goodsSvc.registerGoods(type));
+		}
 		
 		return "goods/goodsdetailregister";
 	}
@@ -76,13 +83,14 @@ public class GoodsCtrl {
 			@RequestParam("breakfast") String breakfast,
 			Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
-		String hid = (String) session.getAttribute("hid");
-		//String hid = "KOR0001";
-		String tcode = goodsSvc.findTcode(hid);
-		exp = exp.replace("\r\n","<br>");
-		Tdetails tdetails = new Tdetails(tcode, exp, bedtype, bedno, tview, smoke, tszie, bathtype, breakfast);
-		model.addAttribute(goodsSvc.registerGoodsDetail(tdetails));
-		
+		if(session != null) {
+			String hid = (String) session.getAttribute("hid");
+			//String hid = "KOR0001";
+			String tcode = goodsSvc.findTcode(hid);
+			exp = exp.replace("\r\n","<br>");
+			Tdetails tdetails = new Tdetails(tcode, exp, bedtype, bedno, tview, smoke, tszie, bathtype, breakfast);
+			model.addAttribute(goodsSvc.registerGoodsDetail(tdetails));
+		}
 		return "main/main";
 	}
 	
@@ -102,11 +110,12 @@ public class GoodsCtrl {
 			Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		
-		Reserve reserve = new Reserve();
-		reserve.setCheckin(checkIn);
-		reserve.setCheckout(checkOut);
-		reserve.setPerson(max);
-		session.setAttribute("reserve", reserve);
+		Map<String, String> searchValue = (Map<String, String>) session.getAttribute("searchValue");
+		if (searchValue == null) {
+			searchValue = new HashMap<>();
+		}
+		searchValue.put(checkIn, checkOut);
+		session.setAttribute("reserve", searchValue);
 		
 		Search search = new Search(checkIn, checkOut, max, location);
 		model.addAttribute("searchResult", goodsSvc.searchList(search));
@@ -118,7 +127,13 @@ public class GoodsCtrl {
 	@RequestMapping(value="/hoteldetail")
 	public String hotelDetail(@RequestParam("hid") String hid, Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession(false);		
-		session.getAttribute("reserve");
+		Map<String, String> searchValue = (Map<String, String>) session.getAttribute("reserve");
+		if (searchValue != null) {
+		    for (Map.Entry<String, String> entry : searchValue.entrySet()) {
+		        String checkIn = entry.getKey();
+		        String checkOut = entry.getValue();
+		    }
+		};
 		
 		model.addAttribute("hotel", goodsSvc.selectHotel(hid));
 		model.addAttribute("rooms", goodsSvc.hotelDetail(hid));

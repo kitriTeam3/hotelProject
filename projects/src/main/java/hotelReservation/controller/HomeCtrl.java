@@ -19,7 +19,6 @@ public class HomeCtrl {
 	@RequestMapping(value="/homePage")
 	public String home(Model model, HttpServletRequest request) {	
 		HttpSession session = request.getSession(false);
-		System.out.println(session);
 		model.addAttribute("sessionScope", session);
 		
 		return "main/main";
@@ -27,9 +26,12 @@ public class HomeCtrl {
 	
 	@RequestMapping(value="/logout")
 	public String logout(HttpServletRequest request) {	
-	    HttpSession session = request.getSession();
+	    HttpSession session = request.getSession(false);
+	    System.out.println(session);
+	    session.removeAttribute("cid");
+	    session.removeAttribute("cpw");
 	    session.invalidate(); 
 		
-	    return "main/main";
+	    return "redirect:/homePage";
 	}
 }
