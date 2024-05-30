@@ -14,11 +14,12 @@ public class MyReserve {
 	private int person;
 	private String rdate;
 	private char cancel;
+	private String pid;
 	private int price;
 	
 	
 	public MyReserve(String rid, String hname, String exp, String bedtype, int person, String rdate, char cancel,
-			int price) {
+			String pid, int price) {
 		this.rid = rid;
 		this.hname = hname;
 		this.exp = exp;
@@ -26,6 +27,7 @@ public class MyReserve {
 		this.person = person;
 		this.rdate = rdate;
 		this.cancel = cancel;
+		this.pid = pid;
 		this.price = price;
 	}
 	

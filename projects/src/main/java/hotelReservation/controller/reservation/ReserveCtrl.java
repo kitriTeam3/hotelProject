@@ -182,10 +182,10 @@ public class ReserveCtrl {
 	}
 
 
-	// ctrl->view
-	@RequestMapping(value="/myReservation")
+	// 고객 내 예약 조회(ctrl->view)
+	@RequestMapping(value="/myBook")
 	public String myReservationPage(HttpServletRequest req, ModelMap model) {
-		
+	
 		// 세션에 저장된 고객아이디 가져오기
 		String cid = (String) session.getAttribute("cid");
 		// 로그인 안해서 조회불가능
@@ -201,7 +201,46 @@ public class ReserveCtrl {
 		}
 
 	}
+	
+	// 고객 예약 취소 (view->ctrl)
+	@RequestMapping(value="/myReservation", method= RequestMethod.POST)
+	public String nReserveInfo(HttpServletRequest req, 
+			@RequestParam("cancel") String rid,  ModelMap model) {
+		if(rid!=null) {
+			//예약취소여부 확인
+			model.addAttribute("check", "check");
+			
+			System.out.println("예약취소번호:"+rid);
+			//결제 번호 가져오기
+			String pid = paySvc.cancelPid(rid);
+			System.out.println("결제취소번호:"+pid);
+			// 예약내역, 결제내역 동시 취소
+			int bookCancel = reserveSvc.cancel(rid);
+			if(bookCancel==1) {
+				System.out.println("예약취소 완료");
+				//결제 취소
+				int payCancel = paySvc.cancel(pid);
+				if(payCancel==1) {
+					
+					System.out.println("결제취소 완료");
+					// 취소완료된 예약내역 재전송
+					String cid = (String) session.getAttribute("cid");
+					List<MyReserve> myReservation = reserveSvc.myReservation(cid);
+					model.addAttribute("List", myReservation);
+					
+				} else {
+					System.out.println("결제취소 오류");
+				}
+				
+			} else {
+				System.out.println("예약취소 오류");
+			}
+		}
+		
 
+		return "reservation/myReservation";
+	}
+	
 	
 	// 호텔 고객 예약 페이지
 	@RequestMapping(value="/hotelBook")
@@ -212,7 +251,7 @@ public class ReserveCtrl {
 	
 	// 호텔 고객 예약 조회 (view->ctrl)
 	@RequestMapping(value="/cReservation", method= RequestMethod.POST)
-	public String nReserveInfo(HttpServletRequest req, 
+	public String nReserveInfo(
 			@RequestParam("search") String search, @RequestParam("cid") String cid,
 			@RequestParam("rid") String rid, @RequestParam("month") String mdate,
 			@RequestParam("date") String rdate, ModelMap model) {
@@ -249,5 +288,6 @@ public class ReserveCtrl {
 		return "reservation/cReservation";
 	}
 	
+
 	
 }

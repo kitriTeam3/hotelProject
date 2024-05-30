@@ -60,6 +60,12 @@ public class PayDaoImpl implements PayDao {
 	}
 	
 	@Override
+	public String cancelPid(String rid) {
+		String pid = sqlSessionTemplate.selectOne("pay.cancelPid", rid);
+		return pid;
+	}
+	
+	@Override
 	public int cancel(String pid) {
 		int cnt = sqlSessionTemplate.delete("pay.cancel", pid);
 		return cnt;

@@ -67,8 +67,16 @@
 			  AND s.tcode=t.tcode  AND t.hid= h.hid
 		]]>
 	</select>
-	
-	
+
+	<!-- 결제 취소번호 가져오기 -->
+	<select id="cancelPid" parameterType="String" resultType="String">
+		<![CDATA[
+		SELECT p.pid
+		FROM reserve r, pay p
+		WHERE r.rid=#{rid} AND r.pid=p.pid
+		]]>
+	</select>
+
 	<!-- 결제 취소하기 -->
 	<update id="cancel" parameterType="String" >
 	<![CDATA[

@@ -38,6 +38,12 @@
 <body>
    <form action="/projects/myReservation" method="POST" >
     <h1>나의 예약 내역</h1>
+    	<c:if test="${check eq 'check'}">
+        	<script type="text/javascript">
+			alert('예약을 취소하시겠습니까?');
+			</script>
+        </c:if>
+    
     <table>
         <thead>
             <tr>
@@ -49,19 +55,16 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-            		<c:forEach var="List" items="${List}">
-						<tr>
+            	<c:forEach var="List" items="${List}">
+					<tr>
 						<td>${List.rid}</td>
                			 <td>${List.hname} <br> ${List.exp}<br> ${List.bedtype} <br> 인원수:${List.person} </td>
                			 <td>${List.rdate}</td>
 			 			 <td class="status-complete">예약완료<br><button type="submit" id="cancel" name="cancel" value="${List.rid}">예약취소</button></td>
 			  			 <td>${List.price}</td>
-						</tr>
-					</c:forEach>
-            
-       
-            </tr>
+					</tr>
+				</c:forEach>
+
             <!-- Add more rows as needed -->
         </tbody>
     </table>

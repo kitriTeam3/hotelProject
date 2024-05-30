@@ -42,9 +42,9 @@
 
 	<select id="myReservation" parameterType="String" resultType="MyReserve"> 
 	<![CDATA[
-	SELECT DISTINCT r.rid rid, h.hname hname, d.exp exp, d.bedtype bedtype, r.person person, r.rdate rdate, r.cancel cancel , p.price price
+	SELECT DISTINCT r.rid rid, h.hname hname, d.exp exp, d.bedtype bedtype, r.person person, r.rdate rdate, r.cancel cancel , r.pid pid, p.price price
 	FROM reserve r, stock s, type t, tdetails d, hotel h, pay p
-	WHERE r.cid=#{cid} AND r.tcode=s.tcode AND s.tcode=t.tcode AND t.tcode=d.tcode AND t.hid=h.hid AND p.pid=r.pid
+	WHERE r.cid=#{cid} AND r.cancel='N' AND r.tcode=s.tcode AND s.tcode=t.tcode AND t.tcode=d.tcode AND t.hid=h.hid AND p.pid=r.pid
 	]]>
 	</select>
 	
@@ -53,7 +53,7 @@
 	SELECT rid, rdate, firstname, lastname, email, country, request, 
 		   checkin, checkout, person, cancel, pid, cid, tcode  
 	FROM reserve
-	WHERE cid=#{cid}
+	WHERE cid=#{cid} AND cancel='N'
 	]]>
 	</select>
 	 
@@ -62,7 +62,7 @@
 	SELECT rid, rdate, firstname, lastname, email, country, request, 
 		   checkin, checkout, person, cancel, pid, cid, tcode  
 	FROM reserve
-	WHERE rid=#{rid}
+	WHERE rid=#{rid} AND cancel='N'
 	]]>
 	</select>
 	
@@ -71,7 +71,7 @@
 	SELECT rid, rdate, firstname, lastname, email, country, request, 
 		   checkin, checkout, person, cancel, pid, cid, tcode  
 	FROM reserve
-	WHERE rdate=TO_DATE(#{rdate}, 'YYYY-MM-DD')
+	WHERE rdate=TO_DATE(#{rdate}, 'YYYY-MM-DD') AND cancel='N'
 	]]>
 	</select>
 	
@@ -81,12 +81,12 @@
 	SELECT rid, rdate, firstname, lastname, email, country, request, 
 		   checkin, checkout, person, cancel, pid, cid, tcode  
 	FROM reserve
-	WHERE rdate BETWEEN #{rdate} AND ADD_MONTHS(#{rdate}, 1)
+	WHERE rdate BETWEEN #{rdate} AND ADD_MONTHS(#{rdate}, 1) AND cancel='N'
 	MINUS
 	SELECT rid, rdate, firstname, lastname, email, country, request, 
 		   checkin, checkout, person, cancel, pid, cid, tcode  
 	FROM reserve
-	WHERE rdate=ADD_MONTHS(#{rdate}, 1)
+	WHERE rdate=ADD_MONTHS(#{rdate}, 1) AND cancel='N'
 	]]>
 	</select>
 	

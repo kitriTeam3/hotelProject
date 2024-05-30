@@ -14,5 +14,7 @@ public interface PayDao {
 	String createPid(CreatePid cp);
 	int payInfo(Pay pay);
 	HotelInfo completeInfo(String tcode);
+	
+	String cancelPid(String rid);
 	int cancel(String pid);
 }

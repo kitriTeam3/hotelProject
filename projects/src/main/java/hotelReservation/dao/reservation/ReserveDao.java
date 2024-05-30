@@ -23,4 +23,7 @@ public interface ReserveDao {
 	List<Reserve> bookByDate(String rdate);
 	List<Reserve> bookByMonth(String rdate);
 	
+	
+	
+	
 }

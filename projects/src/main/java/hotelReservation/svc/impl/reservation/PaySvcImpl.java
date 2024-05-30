@@ -61,11 +61,20 @@ public class PaySvcImpl implements PaySvc {
 		return hInfo;
 	}
 
+	
+	@Override
+	public String cancelPid(String rid) {
+		String pid = payDao.cancelPid(rid);
+		return pid;
+	}
+	
 	@Override
 	public int cancel(String pid) {
 		int cnt = payDao.cancel(pid);
 		return cnt;
 	}
+
+
 
 
 
