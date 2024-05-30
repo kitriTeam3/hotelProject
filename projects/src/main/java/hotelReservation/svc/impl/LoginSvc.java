@@ -1,4 +1,4 @@
-package hotelReservation.dao;
+package hotelReservation.svc.impl;
 
 import hotelReservation.dto.CustomerLogin;
 import hotelReservation.dto.CustomerSignUp;
@@ -7,8 +7,8 @@ import hotelReservation.dto.EmployeeSignUp;
 import hotelReservation.dto.HotelLogin;
 import hotelReservation.dto.HotelSignUp;
 
-public interface LoginDao {
-	
+public interface LoginSvc {
+
 	String cLogin(CustomerLogin cl);
 	CustomerSignUp cMyinfo(String cid);
 	int cSignUp(CustomerSignUp csu);
