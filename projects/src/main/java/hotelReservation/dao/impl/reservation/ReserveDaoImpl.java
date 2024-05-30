@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import hotelReservation.dao.reservation.ReserveDao;
 import hotelReservation.dto.CreateRid;
 import hotelReservation.dto.CustomerInfo;
+import hotelReservation.dto.MyReserve;
 import hotelReservation.dto.Rdate;
 import hotelReservation.dto.Reserve;
 import lombok.Getter;
@@ -59,6 +60,15 @@ public class ReserveDaoImpl implements ReserveDao {
 		
 	}
 
+	// 내 예약정보 조회
+	@Override
+	public List<MyReserve> myReservation(String cid) {
+		List<MyReserve> myReservation = sqlSessionTemplate.selectList("reserve.myReservation", cid);
+		return myReservation;
+	}
+
+
+	
 	@Override
 	public List<Reserve> bookByCustomer(String cid) {
 		List<Reserve> bookList = sqlSessionTemplate.selectList("reserve.bookByCustomer", cid);

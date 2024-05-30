@@ -61,6 +61,7 @@ public class PayCtrl {
 	
 				//세션으로 예약정보 객체가져오기
 				Reserve reserve = (Reserve)session.getAttribute("reserve");
+				
 				// 객체에 cid값 넣기
 				reserve.setCid(cid);
 				
@@ -88,6 +89,7 @@ public class PayCtrl {
 		long cardno = Long.parseLong(pcardno);
 		int cvcno = Integer.parseInt(pcvcno);
 		int price = Integer.parseInt(tprice);
+		
 		// 예약 날짜 
 		LocalDate now = LocalDate.now();
 		String chargedate = String.valueOf(now);
@@ -104,9 +106,9 @@ public class PayCtrl {
 		System.out.println("pid:" +pid);
 		System.out.println("결제번호 생성 완료");
 		
-		
 		// 결제 정보 채워넣기
 		Pay pay = new Pay(pid, cardco, chargedate, expiredate, cardno, cvcno, price, 'N');
+		
 		// 결제 정보 DB에 넣기
 		int payInfo = paySvc.payInfo(pay);
 		System.out.println("결제정보 입력 완료");
@@ -122,6 +124,7 @@ public class PayCtrl {
 			// 완료 예약정보 DB에 집어넣기
 			int rcnt = reserveSvc.reserveInfo(reserve);
 			System.out.println(rcnt);
+			
 			if(rcnt==1) {
 				System.out.println("예약정보 입력완료");
 				//예약완료 정보 가져오기
@@ -134,16 +137,16 @@ public class PayCtrl {
 				model.addAttribute("rid", reserve.getRid());
 				model.addAttribute("rdate", reserve.getRdate());
 				model.addAttribute("tprice", price);
+				
 			//세션 예약 정보 객체 소멸
 			session.removeAttribute("reserve");
 			return "reservation/reserveConfirm";
+			
 			} else {
 				System.out.println("예약정보 입력실패");
 				return "reservation/payInfo";
 			}
-			
 		
-			
 		} else {
 			System.out.println("결제 처리 중 오류 발생");
 			model.addAttribute("result", "Fail");

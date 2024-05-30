@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import hotelReservation.dao.reservation.ReserveDao;
 import hotelReservation.dto.CreateRid;
 import hotelReservation.dto.CustomerInfo;
+import hotelReservation.dto.MyReserve;
 import hotelReservation.dto.Rdate;
 import hotelReservation.dto.Reserve;
 import hotelReservation.svc.reservation.ReserveSvc;
@@ -61,6 +62,13 @@ public class ReserveSvcImpl implements ReserveSvc {
 		
 	}
 
+	// 내 예약정보 조회
+	@Override
+	public List<MyReserve> myReservation(String cid) {
+		List<MyReserve> myReservation = reserveDao.myReservation(cid);
+		return myReservation;
+	}
+	
 	@Override
 	public List<Reserve> bookByCustomer(String cid) {
 		List<Reserve> bookList = reserveDao.bookByCustomer(cid);
@@ -84,6 +92,8 @@ public class ReserveSvcImpl implements ReserveSvc {
 		List<Reserve> bookList = reserveDao.bookByMonth(rdate);
 		return bookList;
 	}
+
+
 
 
 

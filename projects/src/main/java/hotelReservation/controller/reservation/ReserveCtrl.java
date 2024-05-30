@@ -1,6 +1,7 @@
 package hotelReservation.controller.reservation;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import hotelReservation.dto.CreateRid;
 import hotelReservation.dto.CustomerInfo;
+import hotelReservation.dto.MyReserve;
 import hotelReservation.dto.Reserve;
 import hotelReservation.svc.reservation.PaySvc;
 import hotelReservation.svc.reservation.ReserveSvc;
@@ -34,31 +36,20 @@ public class ReserveCtrl {
 	@RequestMapping(value="/getMemberInfo")
 	public String customerInfo(HttpServletRequest req, ModelMap model) {
 		
-		session = req.getSession();
-		
-		/*
-		 * test용
-		 */
-		
-		session.setAttribute("cid", "asdf");
-		Reserve treserve = new Reserve(null, null, null,
-				null, null, null,
-				null,  "2024-05-29", "2024-05-31", 
-				2, 'N', null, null, "KOR0002_01"); 
-		session.setAttribute("reserve", treserve);
-		/*
-		 * 
-		 */
-		
+
 		// 세션에 저장된 고객아이디 가져오기
+		session = req.getSession();
 		String cid = (String) session.getAttribute("cid");
 		System.out.println("고객 아이디 확인");
 		System.out.println(cid);
+		
 		// 세션 예약 객체 정보에 고객 아이디 값 넣기 
 		Reserve reserve = (Reserve) session.getAttribute("reserve");
 		reserve.setCid(cid);
+		
 		// 세션 객체 값 다시 전달
 		session.setAttribute("reserve", reserve);
+		
 		// 고객아이디를 통해 고객 정보 가져오기
 		CustomerInfo cInfo = reserveSvc.customerInfo(cid);
 		System.out.println("고객 정보 확인");
@@ -77,8 +68,10 @@ public class ReserveCtrl {
 			@RequestParam("confirm") String confirm,
 			@RequestParam("country") String country,
 			@RequestParam("request") String request, ModelMap model) {
+		
 		// 이메일 재확인 일치
 		if(confirm.equals(email)) {
+			
 			// 예약 날짜 
 			LocalDate now = LocalDate.now();
 			String rdate = String.valueOf(now);
@@ -132,28 +125,6 @@ public class ReserveCtrl {
 		}
 	}
 	
-	/*
-	 * 
-	 */
-	//테스트용
-	@RequestMapping(value="/showPage")
-	public String nReserveInfoPage(HttpServletRequest req) {
-		session = req.getSession();
-		// 상품조회에서 담는 값
-		// getAttribute("reserve");
-		
-		//테스트용 값
-		Reserve reserve = new Reserve(null, null, null,
-				null, null, null,
-				null,  "2024-05-29", "2024-05-31", 
-				2, 'N', null, null, "KOR0001_01"); 
-		session.setAttribute("reserve", reserve);
-
-		return "reservation/nReserveInfo";
-	}
-	/*
-	 * 
-	 */
 	
 	// 로그인 안한 예약자 정보 작성값 가져오기(view->ctrl)
 	@RequestMapping(value="/nReserveInfo", method= RequestMethod.POST)
@@ -169,7 +140,6 @@ public class ReserveCtrl {
 			LocalDate now = LocalDate.now();
 			String rdate = String.valueOf(now);
 
-			
 			// 예약번호 생성
 			// 중대 오류 발생 - 누군가 예약하는데 예약이 안끝났는데 
 			//                  다른 사람이 예약하려고 시도하면
@@ -177,8 +147,6 @@ public class ReserveCtrl {
 			CreateRid cr = new CreateRid(country, rdate);
 			String rid = reserveSvc.createRid(cr);
 
-
-		
 			//세션으로 예약정보 값 저장
 			session = req.getSession();
 			session.setAttribute("rid", rid);
@@ -212,7 +180,26 @@ public class ReserveCtrl {
 			return "reservation/nReserveInfo";
 		}
 	}
-	
-	
-	
+
+
+	// ctrl->view
+	@RequestMapping(value="/myReservation")
+	public String myReservationPage(HttpServletRequest req, ModelMap model) {
+		
+		// 세션에 저장된 고객아이디 가져오기
+		String cid = (String) session.getAttribute("cid");
+		// 로그인 안해서 조회불가능
+		if(cid==null) {
+			return "reservation/myReservation";
+		}
+		//로그인 예약조회 가능
+		else {
+			List<MyReserve> myReservation = reserveSvc.myReservation(cid);
+			model.addAttribute("List", myReservation);
+		
+			return "reservation/myReservation";
+		}
+
+	}
+
 }

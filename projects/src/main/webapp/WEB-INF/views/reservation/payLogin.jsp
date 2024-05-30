@@ -1,12 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	isELIgnored="false"  pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>�α��� ������</title>
+    <title>로그인 페이지</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -55,25 +55,25 @@
     	<c:choose>
 			<c:when test="${result eq 'no_id'}">
 				<script type="text/javascript">
-				alert('���̵� �������� �ʽ��ϴ�.');
+				alert('아이디가 존재하지 않습니다.');
 				</script>
 			</c:when>
 	
 			<c:when test="${result eq 'wrong_pw'}">
 				<script type="text/javascript">
-				alert('��й�ȣ�� ��ġ���� �ʽ��ϴ�.');
+				alert('비밀번호가 일치하지 않습니다.');
 				</script>
 			</c:when>
        	</c:choose>
        	
        	
-        <label for="cid">���̵� <span style="color: red;">*</span></label>
+        <label for="cid">아이디 <span style="color: red;">*</span></label>
         <input type="text" id="cid" name="cid" required>
 
-        <label for="cpw">��й�ȣ <span style="color: red;">*</span></label>
+        <label for="cpw">비밀번호 <span style="color: red;">*</span></label>
         <input type="password" id="cpw" name="cpw" required>
 
-        <input type="submit" value="�α���">
+        <input type="submit" value="로그인">
     </form>
 </div>
 

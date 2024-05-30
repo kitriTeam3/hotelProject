@@ -1,10 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	isELIgnored="false"  pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>¿¹¾à È®ÀÎ¼­</title>
+    <title>ì˜ˆì•½ í™•ì¸ì„œ</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -61,37 +61,37 @@
 <body>
     <div class="container">
         <div class="notification">
-            ¿¹¾à È®ÀÎ¼­°¡ ¹ß¼ÛµÇ¾ú½À´Ï´Ù. ÀÌ¸ÞÀÏ ¹ÞÀº ÆíÁöÇÔ¿¡¼­ È®ÀÎÇÒ ¼ö ¾ø´Â °æ¿ì ½ºÆÔ ¸ÞÀÏÇÔµµ È®ÀÎÇØ º¸½Ã±â ¹Ù¶ø´Ï´Ù.
+            ì˜ˆì•½ í™•ì¸ì„œê°€ ë°œì†¡ë˜ì—ˆìŠµë‹ˆë‹¤. ì´ë©”ì¼ ë°›ì€ íŽ¸ì§€í•¨ì—ì„œ í™•ì¸í•  ìˆ˜ ì—†ëŠ” ê²½ìš° ìŠ¤íŒ¸ ë©”ì¼í•¨ë„ í™•ì¸í•´ ë³´ì‹œê¸° ë°”ëžë‹ˆë‹¤.
         </div>
         <div class="field">
-            <label class="label">¿¹¾à¹øÈ£</label>
+            <label class="label">ì˜ˆì•½ë²ˆí˜¸</label>
             <input type="text" class="input" name="reservation_number" 
             value="${rid}" readonly>
         </div>
         <div class="field">
-            <label class="label">¿¹¾àÀÏÀÚ</label>
+            <label class="label">ì˜ˆì•½ì¼ìž</label>
             <input type="text" class="input" name="reservation_date"
                value="${rdate}" readonly>
         </div>
         <div class="hotel-info">
             <div class="hotel-photo">
-                È£ÅÚ»çÁø
+                í˜¸í…”ì‚¬ì§„
             </div>
             <div class="hotel-details">
                 <div class="field">
-                    <label class="label">È£ÅÚ¸í</label>
+                    <label class="label">í˜¸í…”ëª…</label>
                     <input type="text" class="input" name="hotel_name"
                         value="${hname}" readonly>
                 </div>
                 <div class="field">
-                    <label class="label">À§Ä¡</label>
+                    <label class="label">ìœ„ì¹˜</label>
                     <input type="text" class="input" name="hotel_location"
                      value="${location}" readonly>
                 </div>
             </div>
         </div>
         <div class="field">
-            <label class="label">°áÁ¦±Ý¾×</label>
+            <label class="label">ê²°ì œê¸ˆì•¡</label>
             <input type="text" class="input" name="payment_amount"
                   value="${tprice}" readonly>
         </div>

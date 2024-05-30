@@ -40,7 +40,13 @@
   		]]>
 	</insert>
 
-	
+	<select id="myReservation" parameterType="String" resultType="MyReserve"> 
+	<![CDATA[
+	SELECT DISTINCT r.rid rid, h.hname hname, d.exp exp, d.bedtype bedtype, r.person person, r.rdate rdate, r.cancel cancel , p.price price
+	FROM reserve r, stock s, type t, tdetails d, hotel h, pay p
+	WHERE r.cid=#{cid} AND r.tcode=s.tcode AND s.tcode=t.tcode AND t.tcode=d.tcode AND t.hid=h.hid AND p.pid=r.pid
+	]]>
+	</select>
 	
 	<select id="bookByCustomer" parameterType="String" resultType="reserve"> 
 	<![CDATA[
