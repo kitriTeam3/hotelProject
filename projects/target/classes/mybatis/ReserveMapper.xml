@@ -33,10 +33,10 @@
 	<insert id="reserveInfo" parameterType="reserve" >
 		<![CDATA[
    			 INSERT INTO reserve (rid, rdate, firstname, lastname, email, country,
-       							 request, checkin, checkout, person, cancel, tcode) 
+       							 request, checkin, checkout, person, cancel, pid, cid, tcode) 
    			 VALUES (#{rid}, TO_DATE(#{rdate}, 'YYYY-MM-DD'), #{firstname}, #{lastname}, #{email}, #{country}, 
         			#{request}, TO_DATE(#{checkin}, 'YYYY-MM-DD'), TO_DATE(#{checkout}, 'YYYY-MM-DD'), #{person},
-        			#{cancel}, #{tcode})
+        			#{cancel}, #{pid}, #{cid}, #{tcode})
   		]]>
 	</insert>
 

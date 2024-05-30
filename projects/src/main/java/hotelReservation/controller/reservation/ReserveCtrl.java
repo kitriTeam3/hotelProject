@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import hotelReservation.dto.CreateRid;
 import hotelReservation.dto.CustomerInfo;
 import hotelReservation.dto.Reserve;
+import hotelReservation.svc.reservation.PaySvc;
 import hotelReservation.svc.reservation.ReserveSvc;
 
 
@@ -23,6 +24,8 @@ public class ReserveCtrl {
  
 	@Autowired
 	private ReserveSvc reserveSvc; 
+	@Autowired
+	private PaySvc paySvc;
 	
 	@Autowired
 	private HttpSession session;
@@ -41,7 +44,7 @@ public class ReserveCtrl {
 		Reserve treserve = new Reserve(null, null, null,
 				null, null, null,
 				null,  "2024-05-29", "2024-05-31", 
-				2, 'N', null, null, "KOR0001_06"); 
+				2, 'N', null, null, "KOR0002_01"); 
 		session.setAttribute("reserve", treserve);
 		/*
 		 * 
@@ -107,6 +110,13 @@ public class ReserveCtrl {
 			
 			// 예약 정보 객체 세션에 다시 주기 
 			session.setAttribute("reserve", reserve);
+			
+			// 객체에 저장된 상품코드 값 가져오기
+			String tcode = reserve.getTcode();
+			int tprice = paySvc.priceInfo(tcode);
+			// 가격정보 뷰로 보내기
+			model.addAttribute("tprice", tprice);
+			
 			// 결제 페이지로 바로 넘어감
 			return "reservation/payInfo";
 		} 
@@ -136,7 +146,7 @@ public class ReserveCtrl {
 		Reserve reserve = new Reserve(null, null, null,
 				null, null, null,
 				null,  "2024-05-29", "2024-05-31", 
-				2, 'N', null, null, "KOR0001_06"); 
+				2, 'N', null, null, "KOR0001_01"); 
 		session.setAttribute("reserve", reserve);
 
 		return "reservation/nReserveInfo";

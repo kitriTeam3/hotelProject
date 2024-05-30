@@ -7,11 +7,11 @@ import lombok.Setter;
 @Setter
 public class CreatePid {
 
-	private int cardco;
+	private String cardco;
 	private String chargedate;
 	
 	
-	public CreatePid(int cardco, String chargedate) {
+	public CreatePid(String cardco, String chargedate) {
 		this.cardco = cardco;
 		this.chargedate = chargedate;
 	}

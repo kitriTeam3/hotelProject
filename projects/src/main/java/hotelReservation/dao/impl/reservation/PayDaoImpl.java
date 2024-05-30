@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import hotelReservation.dao.reservation.PayDao;
 import hotelReservation.dto.CreatePid;
 import hotelReservation.dto.CustomerLogin;
+import hotelReservation.dto.HotelInfo;
 import hotelReservation.dto.Pay;
 import lombok.Getter;
 import lombok.Setter;
@@ -51,11 +52,19 @@ public class PayDaoImpl implements PayDao {
 		return cnt;
 	}
 
+
+	@Override
+	public HotelInfo completeInfo(String tcode) {
+		HotelInfo hInfo = sqlSessionTemplate.selectOne("pay.complete", tcode); 
+		return hInfo;
+	}
+	
 	@Override
 	public int cancel(String pid) {
 		int cnt = sqlSessionTemplate.delete("pay.cancel", pid);
 		return cnt;
 	}
+
 
 
 

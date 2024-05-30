@@ -11,14 +11,14 @@ public class Pay {
 	private String cardco;
 	private String chargedate;
 	private String expiredate;
-	private int cardno;
+	private long cardno;
 	private int cvcno;
 	private int price;
 	private char cancel;
 	
 	public Pay() {}
 	public Pay(String pid, String cardco, String chargedate, 
-			String expiredate, int cardno, int cvcno, 
+			String expiredate, long cardno, int cvcno, 
 			int price, char cancel) {
 		this.pid = pid;
 		this.cardco = cardco;

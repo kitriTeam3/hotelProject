@@ -3,6 +3,7 @@ package hotelReservation.dao.reservation;
 
 import hotelReservation.dto.CreatePid;
 import hotelReservation.dto.CustomerLogin;
+import hotelReservation.dto.HotelInfo;
 import hotelReservation.dto.Pay;
 
 public interface PayDao {
@@ -12,5 +13,6 @@ public interface PayDao {
 	
 	String createPid(CreatePid cp);
 	int payInfo(Pay pay);
+	HotelInfo completeInfo(String tcode);
 	int cancel(String pid);
 }

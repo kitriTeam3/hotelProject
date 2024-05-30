@@ -2,7 +2,7 @@
 	isELIgnored="false"  pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
 	<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -70,7 +70,7 @@
         <p>[결제 가능] VISA Master American Express</p>
 
         <label for="cardco">결제 방법 선택</label><br>
-        <select id="cardco" name="cardco">
+        <select id="cardco" name="cardco" required>
             <option value="">카드 선택</option>
             <option value="VISA">VISA</option>
             <option value="MASTER">Master</option>
@@ -78,7 +78,7 @@
         </select><br><br>
 
         <label for="cardno">카드 번호</label><br>
-        <input type="text" id="cardno" name="cardNumber" required><br><br>
+        <input type="text" id="cardno" name="cardno" required><br><br>
 
         <label for="expiredate">카드 만료일</label>
         <input type="month" id="expiredate" name="expiredate" required style="width: 100px;">

@@ -42,25 +42,34 @@
 		WITH lastPid AS (
   			SELECT CASE WHEN COUNT(pid) > 0 THEN MAX(pid) ELSE '00000000000_0' END AS max_pid
   			FROM pay
-  			WHERE cardco=#{cardco} AND chargedate=${chargedate}
+  			WHERE cardco=#{cardco} AND chargedate=TO_DATE(#{chargedate},'YYYY-MM-DD')
 		)
 		SELECT SUBSTR(#{cardco}, 1, 1) || SUBSTR(#{chargedate}, 1, 4) || SUBSTR(#{chargedate}, 6, 2) || 
-			SUBSTR(#{chargedate}, 9, 2) || '_' || TO_CHAR(TO_NUMBER(SUBSTR(max_pid, 13)) + 1) AS pid
+			   SUBSTR(#{chargedate}, 9, 2) || '_EC' || TO_CHAR(TO_NUMBER(SUBSTR(max_pid, 13)) + 1) AS pid 
 		FROM lastPid
 		]]>
 	</select>
 
-
+	<!-- 결제 정보 작성하기 -->
 	<insert id="payInfo" parameterType="pay" >
 	<![CDATA[
 	INSERT INTO pay (pid, chargedate, expiredate, cardno, cvcno, price, cardco, cancel) 
-	VALUES (#{pid}, TO_DATE(#{chargedate}, 'YYYY-MM-DD')), TO_DATE(#{expiredate}, 'YYYY-MM-DD')),
-			#{cardno}, #{cvcno}, #{price}, #{cardno}, #{cancel})
+	VALUES (#{pid}, TO_DATE(#{chargedate}, 'YYYY-MM-DD'), TO_DATE(#{expiredate}, 'YYYY-MM-DD'), #{cardno}, #{cvcno}, #{price}, #{cardco}, #{cancel})
 	]]>
 	</insert>
 	
+	<!-- 예약완료시 화면 정보 가져오기 -->
+		<select id="complete" parameterType="String" resultType="HotelInfo">
+		<![CDATA[
+		SELECT DISTINCT  h.hname, h.location
+		FROM  reserve r, stock s, type t, hotel h 
+		WHERE t.tcode=#{tcode} AND r.tcode=s.tcode  
+			  AND s.tcode=t.tcode  AND t.hid= h.hid
+		]]>
+	</select>
 	
 	
+	<!-- 결제 취소하기 -->
 	<update id="cancel" parameterType="String" >
 	<![CDATA[
 	UPDATE pay SET cancel='Y' WHERE pid=#{pid} 

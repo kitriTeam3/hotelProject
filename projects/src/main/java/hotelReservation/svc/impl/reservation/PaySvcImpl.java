@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import hotelReservation.dao.reservation.PayDao;
 import hotelReservation.dto.CreatePid;
 import hotelReservation.dto.CustomerLogin;
+import hotelReservation.dto.HotelInfo;
 import hotelReservation.dto.Pay;
 import hotelReservation.svc.reservation.PaySvc;
 import lombok.Getter;
@@ -55,10 +56,17 @@ public class PaySvcImpl implements PaySvc {
 
 
 	@Override
+	public HotelInfo completeInfo(String tcode) {
+		HotelInfo hInfo = payDao.completeInfo(tcode);
+		return hInfo;
+	}
+
+	@Override
 	public int cancel(String pid) {
 		int cnt = payDao.cancel(pid);
 		return cnt;
 	}
+
 
 
 }
