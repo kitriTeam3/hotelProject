@@ -56,7 +56,7 @@
 <body>
     <div class="form-container">
         <h2>객실 등록</h2>
-        <form action="/projects/hotelupdate" method="post" >
+        <form action="/projects/goodsregister" method="post" >
             <fieldset>
                 <legend>업체정보</legend>
                 <div class="form-grid">
@@ -68,11 +68,11 @@
                         <label for="location">지역:</label>
                         <select id="location" name="location"  required>
                             <option value=""<c:if test="${hotel.location == ''}">selected</c:if>>선택하세요</option>
-                            <option value="서울시 강남구"<c:if test="${hotel.location == '서울시 강남구'}">selected</c:if>>서울시 강남구</option>
-                            <option value="서울시 종로구"<c:if test="${hotel.location == '서울시 종로구'}">selected</c:if>>서울시 종로구</option>
-                            <option value="서울시 마포구"<c:if test="${hotel.location == '서울시 마포구'}">selected</c:if>>서울시 마포구</option>
-                            <option value="서울시 서초구"<c:if test="${hotel.location == '서울시 서초구'}">selected</c:if>>서울시 서초구</option>
-                            <option value="서울시 송파구"<c:if test="${hotel.location == '서울시 송파구'}">selected</c:if>>서울시 송파구</option>
+                            <option value="seoul_gangnam"<c:if test="${hotel.location == 'seoul_gangnam'}">selected</c:if>>서울시 강남구</option>
+                            <option value="seoul_jongno"<c:if test="${hotel.location == 'seoul_jongno'}">selected</c:if>>서울시 종로구</option>
+                            <option value="seoul_mapo"<c:if test="${hotel.location == 'seoul_mapo'}">selected</c:if>>서울시 마포구</option>
+                            <option value="seoul_seocho"<c:if test="${hotel.location == 'seoul_seocho'}">selected</c:if>>서울시 서초구</option>
+                            <option value="seoul_songpa"<c:if test="${hotel.location == 'seoul_songpa'}">selected</c:if>>서울시 송파구</option>
                         </select>
                     </div>
                     <div>
@@ -92,11 +92,7 @@
                    </div>
                 </div>
             </fieldset>
-             <div class="form-buttons">
-                <input type="submit" value="등록">
-            </div>
-        </form>
-        <form action="/projects/goodsregister" method="post" >
+
             <fieldset>
                 <legend>객실정보</legend>
                 <div class="form-grid">

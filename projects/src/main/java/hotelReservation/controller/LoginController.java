@@ -15,7 +15,7 @@ import hotelReservation.dto.CustomerLogin;
 import hotelReservation.dto.CustomerSignUp;
 import hotelReservation.dto.EmpLogin;
 import hotelReservation.dto.HotelLogin;
-import hotelReservation.svc.impl.LoginSvc;
+import hotelReservation.svc.LoginSvc;
 
 @Controller
 public class LoginController {

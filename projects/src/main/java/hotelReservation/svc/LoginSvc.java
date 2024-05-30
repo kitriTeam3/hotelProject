@@ -1,4 +1,4 @@
-package hotelReservation.svc.impl;
+package hotelReservation.svc;
 
 import hotelReservation.dto.CustomerLogin;
 import hotelReservation.dto.CustomerSignUp;

@@ -110,7 +110,7 @@
 		FROM type t
 		JOIN hotel h ON h.hid=t.hid
 		JOIN stock s ON t.tcode=s.tcode
-		WHERE t.hid=#{hid} AND s.sdate > SYSDATE
+		WHERE t.hid=#{hid} AND s.sdate BETWEEN #{checkIn} AND #{checkOut}
 		ORDER BY tprice
 		]]>
 	</select>
@@ -118,7 +118,7 @@
 	<!-- 객실 세부정보 출력-->
 	<select id="goodsDetail" parameterType="String" resultType="tdetails">
 		<![CDATA[
-		SELECT exp, bedtype, bedno, tview, smoke,
+		SELECT tcode, exp, bedtype, bedno, tview, smoke,
 			 tszie, bathtype, breakfast
 		FROM tdetails
 		WHERE tcode=#{tcode}

@@ -4,13 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import hotelReservation.dao.impl.LoginDao;
+import hotelReservation.dao.LoginDao;
 import hotelReservation.dto.CustomerLogin;
 import hotelReservation.dto.CustomerSignUp;
 import hotelReservation.dto.EmpLogin;
 import hotelReservation.dto.EmployeeSignUp;
 import hotelReservation.dto.HotelLogin;
 import hotelReservation.dto.HotelSignUp;
+import hotelReservation.svc.LoginSvc;
 import lombok.Getter;
 import lombok.Setter;
 

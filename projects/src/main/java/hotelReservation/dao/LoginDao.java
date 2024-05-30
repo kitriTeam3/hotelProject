@@ -1,4 +1,4 @@
-package hotelReservation.dao.impl;
+package hotelReservation.dao;
 
 import hotelReservation.dto.CustomerLogin;
 import hotelReservation.dto.CustomerSignUp;

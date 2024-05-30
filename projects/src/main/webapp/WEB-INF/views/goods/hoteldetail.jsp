@@ -113,9 +113,9 @@
             <div class="room-item">
                 <%-- <img src="${room.photo}" alt="객실 사진"> --%>
                 <div class="room-details">
-                	<h3><a href="/projects/hoteldetail?hid=${hotel.hid}/goodsdetail?tcode=${room.tcode}">${room.tname}</a></h3>
-                    <p>인원: ${room.max}명</p>
-                    <p>재고수량: ${room.amounts}</p>
+                	<h3><a href="/projects/goodsdetail?tcode=${room.tcode}">${room.tname}</a></h3>
+                    <p>인원: ${room.max}인</p>
+                    <p>재고수량: ${room.amounts}개 남음</p>
                 </div>
                 <div class="room-price">
                     <b class="large_text">가격: <fmt:formatNumber value="${room.tprice}" pattern="#,###" />KWR</b>

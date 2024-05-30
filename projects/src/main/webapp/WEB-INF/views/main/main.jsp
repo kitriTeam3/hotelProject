@@ -6,11 +6,12 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>객실 조회</title>
-    <style type="text/css">
-    	body {
-      		font-family: Arial, sans-serif;
-		}
+    <title>사이트명</title>
+    <style>
+        /* 스타일링을 위한 간단한 CSS */
+		body {
+            font-family: Arial, sans-serif;
+        }
         form {
         	display: flex;
             flex-direction: column;
@@ -46,56 +47,25 @@
             padding: 10px 20px;
             margin: 5px;
         }
-		.hotel-list {
+        .photo-container {
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            justify-content: space-around;
+            margin: 20px;
         }
-		.hotel-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 80%;
-            margin: 10px 0;
-            padding: 10px;
-            border: 1px solid #ddd;
-        }
-		.hotel-item img {
-            width: 100px;
-            height: 100px;
-            margin-right: 20px;
-        }
-		.hotel-item .hotel-info {
-            display: flex;
-            flex-direction: column;
-        }
-		.hotel-item .hotel-info h3 {
-            margin: 0;
-        }
-		.hotel-item .hotel-info p {
-            margin: 5px 0;
-        }
-		.hotel-item .hotel-price {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-        }
-		.hotel-item .hotel-price button {
-            margin-top: 10px;
-        }
-		.pagination {
+        .photo {
+            width: 200px;
+            height: 200px;
+            background-color: #007bff;
             display: flex;
             justify-content: center;
-            margin-top: 20px;
-        }
-		.pagination button {
-            margin: 0 5px;
-            padding: 5px 10px;
+            align-items: center;
+            color: white;
+            font-size: 18px;
         }
     </style>
 </head>
 <body>
-	<%@ include file="../main/header.jsp" %>
+ 	<%@ include file="../main/header.jsp" %>
 	<form action="/projects/findhotel" method="post" >
 	    <div class="search-bar">
 	        <div class="search-keyword">
@@ -117,25 +87,12 @@
 	        </div>
 	    </div>
     </form>
-    <div class="hotel-list">
-        <c:forEach var="hotel" items="${searchResult}">
-	    	<div class="hotel-item">
-	        	<%-- <img src="${hotel.tpicture}" alt="대표사진"> --%>
-	            <div class="hotel-info">
-	            	<h3><a href="/projects/hoteldetail?hid=${hotel.hid}">${hotel.hname}</a></h3>
-	                <p>${hotel.grade}성급</p>
-	            </div>
-	            <div class="hotel-price">
-	            	<b class="large_text"><fmt:formatNumber value="${hotel.tprice}" pattern="#,###" />KWR~</b>
-	                <button>예약</button>
-	                <button>장바구니</button>
-	            </div>
-	    	</div>
-        </c:forEach>
-    </div>
 
-    <div class="pagination">
-        <button>1</button>
+    <div class="photo-container">
+        <div class="photo">대표사진1</div>
+        <div class="photo">대표사진2</div>
+        <div class="photo">대표사진3</div>
+        <div class="photo">대표사진4</div>
     </div>
 </body>
 </html>
