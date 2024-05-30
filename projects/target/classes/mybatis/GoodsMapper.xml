@@ -110,7 +110,7 @@
 		FROM type t
 		JOIN hotel h ON h.hid=t.hid
 		JOIN stock s ON t.tcode=s.tcode
-		WHERE t.hid=#{hid} AND s.sdate BETWEEN #{checkIn} AND #{checkOut}
+		WHERE t.hid=#{hid} AND s.sdate>SYSDATE
 		ORDER BY tprice
 		]]>
 	</select>
